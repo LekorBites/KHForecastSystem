@@ -1,0 +1,902 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LekorBites — Forecast</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+:root{--bg:#091311;--panel:#10211d;--panel2:#142a24;--line:rgba(202,255,231,.12);--text:#eaf4ee;--muted:#90a79e;--mint:#62f2b2;--blue:#83b8ff;--violet:#b89cff;--orange:#ffb36b;--danger:#ff817d;font-family:Manrope,Arial,sans-serif;color:var(--text)}*{box-sizing:border-box}body{margin:0;background:var(--bg);min-height:100vh;overflow-x:hidden}.grid-bg{position:fixed;inset:0;pointer-events:none;opacity:.3;background-image:linear-gradient(rgba(152,255,205,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(152,255,205,.035) 1px,transparent 1px);background-size:42px 42px}.aurora{position:fixed;width:42vw;height:42vw;border-radius:50%;filter:blur(110px);opacity:.13;pointer-events:none}.a1{background:#00cf90;top:-25vw;right:-10vw}.a2{background:#5139ed;bottom:-25vw;left:10vw}#app{display:flex;min-height:100vh;position:relative}.sidebar{width:250px;flex:none;border-right:1px solid var(--line);padding:25px 15px;display:flex;flex-direction:column;background:rgba(7,20,16,.5);backdrop-filter:blur(16px)}.brand{display:flex;gap:11px;align-items:center;padding:4px 9px 38px}.brand-mark{display:grid;place-items:center;width:37px;height:37px;background:var(--mint);color:#0c251d;font-size:12px;font-weight:800;border-radius:10px;box-shadow:0 0 26px rgba(98,242,178,.28)}.brand strong{font-size:16px;letter-spacing:-.6px}.brand span,.eyebrow,.side-footer{font-family:'DM Mono';font-size:9px;letter-spacing:1.2px;color:var(--muted);display:block;margin-top:2px}.nav-item{border:0;background:transparent;color:#9eb2aa;cursor:pointer;width:100%;padding:13px 12px;border-radius:9px;text-align:left;font:600 13px Manrope;margin-bottom:4px}.nav-item span{font-size:17px;margin-right:12px}.nav-item.active,.nav-item:hover{background:rgba(98,242,178,.1);color:var(--mint)}.side-footer{margin-top:auto;padding:12px}.pulse,.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 9px var(--mint);margin-right:7px}main{width:calc(100% - 250px);padding:33px 4.5%;max-width:1750px;margin:auto}header{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px}h1,h2,p{margin:0}.eyebrow{margin-bottom:5px;color:#79a79a}h1{font-size:27px;letter-spacing:-1.2px}.header-actions{display:flex;gap:9px}.btn,.icon-btn{border:1px solid var(--line);background:rgba(255,255,255,.025);color:var(--text);padding:10px 15px;border-radius:9px;font:700 12px Manrope;cursor:pointer}.icon-btn{font-size:18px;padding:6px 11px}.btn-primary{background:var(--mint);border-color:var(--mint);color:#092118;box-shadow:0 5px 20px rgba(98,242,178,.18)}.btn:hover,.icon-btn:hover{transform:translateY(-1px)}.glass{background:linear-gradient(135deg,rgba(24,50,43,.83),rgba(13,33,27,.7));border:1px solid var(--line);border-radius:14px;backdrop-filter:blur(12px)}.control-row{padding:16px 18px;display:flex;align-items:center;gap:30px;justify-content:space-between}.week-picker label,.raw-scope label{font:10px 'DM Mono';color:var(--muted);letter-spacing:.8px;display:block;margin-bottom:7px}.week-select-wrap{display:flex;align-items:center}.week-select-wrap button{height:28px;width:28px;color:var(--mint);border:1px solid var(--line);background:#13271f;cursor:pointer}.week-select-wrap button:first-child{border-radius:7px 0 0 7px}.week-select-wrap button:last-child{border-radius:0 7px 7px 0}input,select,textarea{font:500 12px Manrope;color:var(--text);background:#0c1d18;border:1px solid rgba(202,255,231,.16);border-radius:7px;padding:8px;outline:none}input[type=date]{border-radius:0;height:28px;padding:3px 8px;border-left:0;border-right:0;color-scheme:dark}.week-picker>span{font:11px 'DM Mono';color:var(--muted);display:block;margin-top:7px}.segmented{background:#0b1915;border:1px solid var(--line);padding:3px;border-radius:9px;display:flex}.segmented button,.raw-tabs button{border:0;background:transparent;color:var(--muted);padding:8px 12px;border-radius:6px;font:700 11px Manrope;cursor:pointer}.segmented button.selected,.raw-tabs button.selected{background:#1b352c;color:var(--mint)}.segmented small{font:8px 'DM Mono';display:block;opacity:.6}.forecast-by{font-size:10px;color:var(--muted)}.forecast-by input{display:block;margin-top:5px;width:145px;padding:6px}.overview-row{display:flex;justify-content:space-between;align-items:center;padding:25px 0 17px}.overview-copy{font-size:12px;color:var(--muted)}.overview-copy strong{display:block;color:var(--text);font-size:16px;margin-top:7px}.metrics{display:flex;gap:28px}.metrics div{text-align:right}.metrics b{font:700 20px Manrope;display:block;color:var(--mint)}.metrics span{font:9px 'DM Mono';text-transform:uppercase;color:var(--muted)}.calendar-wrap{display:grid;grid-template-columns:repeat(6,minmax(160px,1fr));gap:10px;overflow-x:auto;padding-bottom:5px}.day-card{min-height:485px;border:1px solid var(--line);background:rgba(13,32,26,.82);border-radius:12px;overflow:hidden}.day-card.today{border-color:rgba(98,242,178,.48);box-shadow:inset 0 0 0 1px rgba(98,242,178,.1)}.day-head{padding:14px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}.day-name{font:700 12px Manrope;display:block}.day-date{font:10px 'DM Mono';color:var(--muted);display:block;margin-top:3px}.day-load{font:700 11px 'DM Mono';color:var(--mint)}.battery{height:4px;background:#1b3029;border-radius:3px;margin:0 14px 12px}.battery span{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,var(--mint),#b6ffe0)}.shift{padding:0 10px 10px}.shift-title{font:9px 'DM Mono';letter-spacing:.7px;color:var(--mint);padding:8px 4px 6px}.shift-title.afternoon{color:var(--violet)}.task{position:relative;padding:9px 9px 9px 17px;background:#142a22;margin-bottom:5px;border-radius:7px;font-size:11px;line-height:1.35;cursor:pointer;border:1px solid transparent}.task:before{content:'';position:absolute;left:7px;top:12px;width:4px;height:4px;border-radius:50%;background:var(--mint)}.task.afternoon:before{background:var(--violet)}.task.done{opacity:.5;text-decoration:line-through}.task .checkbox{position:absolute;right:5px;top:5px;width:14px;height:14px;border:1px solid #4f7164;border-radius:4px;text-decoration:none;font-size:10px;text-align:center;color:var(--mint)}.task.done .checkbox{background:#235541}.note-pill{font:9px 'DM Mono';background:rgba(255,179,107,.12);color:#ffca9a;border-radius:4px;padding:3px 5px;margin-top:6px;display:inline-block}.logistics{padding:0 10px}.log-item{border-left:2px solid var(--orange);background:rgba(255,179,107,.07);font-size:10px;padding:7px;margin:5px 0;border-radius:0 5px 5px 0}.log-item.receive{border-color:var(--blue);background:rgba(131,184,255,.07)}.empty-day{color:#547066;font-size:10px;padding:15px}.add-day{font:10px 'DM Mono';color:var(--mint);background:none;border:0;cursor:pointer;padding:8px 13px}.legend{display:flex;gap:20px;padding:17px 3px;color:var(--muted);font-size:10px}.legend-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:5px}.mint{background:var(--mint)}.violet{background:var(--violet)}.orange{background:var(--orange)}.blue{background:var(--blue)}.check{border:1px solid var(--mint)}.hidden{display:none!important}.raw-hero,.archive-hero{padding:28px;display:flex;justify-content:space-between;align-items:center}.raw-hero h2,.archive-hero h2{font-size:25px;letter-spacing:-1px}.raw-hero p,.archive-hero p{font-size:12px;color:var(--muted);max-width:520px;margin-top:8px;line-height:1.6}.raw-scope{text-align:right}.raw-scope select{display:block;margin-left:auto}.raw-scope span{display:block;color:var(--muted);font:10px 'DM Mono';margin-top:7px}.raw-tabs{margin:24px 0 14px;display:flex;border-bottom:1px solid var(--line)}.raw-tabs button{border-radius:7px 7px 0 0}.raw-tabs .add-raw{margin-left:auto;color:var(--mint)}.raw-grid{display:grid;grid-template-columns:repeat(2,minmax(280px,1fr));gap:13px}.raw-card{background:rgba(16,35,29,.86);border:1px solid var(--line);border-radius:11px;padding:16px}.raw-card-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:11px}.raw-card h3{font-size:14px}.raw-card p{font:10px 'DM Mono';color:var(--muted);margin-top:4px}.status{font:9px 'DM Mono';padding:5px 7px;border-radius:4px;background:rgba(98,242,178,.12);color:var(--mint)}.status.alert{background:rgba(255,129,125,.11);color:var(--danger)}.raw-line{display:grid;grid-template-columns:1.4fr .8fr .8fr;gap:8px;padding:9px 0;border-bottom:1px solid rgba(202,255,231,.07);font-size:11px}.raw-line span{color:var(--muted)}.raw-note{font-size:10px;color:#c7d9d0;background:#13251f;border-radius:6px;padding:9px;margin-top:12px;line-height:1.5}.archive-list{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.archive-card{padding:18px;cursor:pointer}.archive-card:hover{border-color:var(--mint)}.archive-card h3{font-size:14px;margin:7px 0}.archive-card p{font-size:11px;color:var(--muted)}.modal{position:fixed;inset:0;z-index:5;background:rgba(3,10,8,.76);display:grid;place-items:center;padding:20px;backdrop-filter:blur(5px)}.modal-card{width:min(620px,100%);max-height:90vh;overflow:auto;position:relative;background:#10221c;border:1px solid rgba(166,255,208,.25);border-radius:14px;padding:27px;box-shadow:0 20px 80px #000}.close-modal{position:absolute;right:13px;top:10px;border:0;background:none;color:var(--muted);font-size:24px;cursor:pointer}.modal-card h2{font-size:20px;margin-bottom:5px}.modal-card>div>p{font-size:11px;color:var(--muted);margin-bottom:20px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:5px}.field label{font:10px 'DM Mono';color:var(--muted)}.field.full{grid-column:1/-1}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}textarea{resize:vertical;min-height:65px}#toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%) translateY(80px);background:#bafbd9;color:#09251a;border-radius:8px;padding:11px 16px;font:700 11px Manrope;transition:.3s;z-index:10}#toast.show{transform:translateX(-50%) translateY(0)}.mobile-menu{display:none}
+@media(max-width:900px){.sidebar{width:68px;padding:20px 8px}.brand{padding:4px 7px 35px}.brand>div:last-child,.nav-item{font-size:0}.nav-item span{font-size:18px;margin:0}.side-footer{font-size:0;padding:6px}.side-footer .pulse{margin:0}.nav-item{text-align:center}.sidebar+main{width:calc(100% - 68px)}main{padding:25px 20px}.control-row{flex-wrap:wrap;gap:16px}.calendar-wrap{grid-template-columns:repeat(6,190px)}.forecast-by{margin-left:auto}.raw-grid,.archive-list{grid-template-columns:1fr}.raw-hero{align-items:flex-start;gap:15px}.metrics{gap:15px}}@media(max-width:600px){.sidebar{display:none}main,.sidebar+main{width:100%;padding:18px 14px}.mobile-menu{display:block;background:none;border:0;color:var(--mint);font-size:18px;margin-right:10px}header{margin-bottom:20px}.header-actions .btn-ghost span{display:none}.header-actions .btn{padding:9px 10px}.header-actions .btn-primary{font-size:0}.header-actions .btn-primary:first-letter{font-size:18px}.control-row{padding:14px}.segmented{order:3;width:100%}.segmented button{flex:1}.forecast-by{display:none}.overview-row{align-items:flex-end}.metrics div:nth-child(2){display:none}.metrics b{font-size:16px}.raw-hero{display:block}.raw-scope{text-align:left;margin-top:18px}.raw-scope select{margin-left:0}.raw-line{grid-template-columns:1.2fr .8fr .8fr}.legend{overflow:auto;white-space:nowrap}.form-grid{grid-template-columns:1fr}.day-card{min-height:440px}}
+
+/* Premium weekly-report surfaces */
+.edit-dock{margin:18px 0 42px;padding:15px 18px;border:1px solid rgba(105,245,183,.2);border-radius:12px;background:linear-gradient(90deg,rgba(105,245,183,.1),rgba(24,50,43,.35));display:flex;justify-content:space-between;align-items:center}.edit-dock strong{display:block;font-size:13px;margin-top:4px}.raw-inline{margin-top:15px}.raw-report{border-top:1px solid var(--line);padding-top:28px}.raw-report-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:19px}.raw-report h2{font-size:21px;letter-spacing:-.8px}.raw-report-head p{font-size:11px;color:var(--muted);margin-top:5px}.raw-total{padding:13px 16px;min-width:185px;border-radius:10px;background:linear-gradient(135deg,#173b2e,#10261e);border:1px solid rgba(105,245,183,.24);text-align:right}.raw-total span,.raw-label{font:9px 'DM Mono';letter-spacing:.8px;color:var(--muted)}.raw-total b{display:block;color:var(--mint);font-size:25px;line-height:1.1}.raw-total small{font-size:11px}.raw-total em{font:9px 'DM Mono';color:#a9c7b9;font-style:normal}.raw-columns{display:grid;grid-template-columns:1fr 1fr;gap:15px}.raw-label{padding:0 2px 8px}.raw-card{margin-bottom:10px;background:linear-gradient(135deg,rgba(21,47,38,.95),rgba(10,27,21,.95))}.add-raw-inline{margin-top:8px;border:1px dashed rgba(105,245,183,.35);background:transparent;border-radius:8px;padding:9px 12px;color:var(--mint);font:11px 'DM Mono';cursor:pointer}.management-hero{padding:36px;display:flex;align-items:center;justify-content:space-between}.management-hero h2,.management-plan-head h2{font-size:28px;letter-spacing:-1.2px}.management-hero p,.management-plan-head p{font-size:12px;color:var(--muted);max-width:540px;line-height:1.65;margin-top:7px}.secure-label{font:9px 'DM Mono';letter-spacing:1px;color:var(--mint);border:1px solid rgba(105,245,183,.24);background:rgba(105,245,183,.07);border-radius:20px;padding:7px 10px}.management-list{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}.management-card{text-align:left;padding:20px;border:1px solid var(--line);cursor:pointer;color:var(--text);transition:.2s}.management-card:hover{transform:translateY(-3px);border-color:var(--mint)}.management-card span{display:block;color:var(--mint);font:9px 'DM Mono';letter-spacing:1px}.management-card strong{display:block;margin:9px 0 25px;font-size:15px}.management-card em{font:11px Manrope;color:var(--muted);font-style:normal}.management-card b{color:var(--mint);float:right;font-size:16px}.manager-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}.back-manager{border:0;background:transparent;color:var(--mint);font:700 12px Manrope;cursor:pointer}.management-plan-head{margin-bottom:22px}.management-plan-head .segmented{display:inline-flex;margin-top:18px}.manager-calendar{margin-bottom:28px}.locked .checkbox{display:none}.pdf-document{position:fixed;left:-20000px;top:0;width:1320px;padding:32px;background:#fff;color:#10211b;font-family:Manrope}.pdf-header{display:flex;justify-content:space-between;align-items:start;padding:0 0 20px;border-bottom:2px solid #1a4634}.pdf-header span,.pdf-header b{font:10px 'DM Mono';letter-spacing:1.2px;color:#257354}.pdf-header h1{color:#10211b;font-size:30px;margin:7px 0}.pdf-header p{color:#50675d;font-size:13px}.pdf-calendar{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:20px 0 25px}.pdf-document .day-card,.pdf-document .raw-card{background:#f7fbf8;border-color:#d4e3db;color:#10211b;min-height:auto}.pdf-document .task{background:#e8f1ec}.pdf-document .raw-report{page-break-before:always}.pdf-document .raw-report h2,.pdf-document .raw-card h3{color:#10211b}.pdf-document .raw-columns{grid-template-columns:1fr 1fr}.pdf-document footer{margin-top:20px;font:10px 'DM Mono';color:#50675d}@media(max-width:700px){.raw-report-head,.management-hero{display:block}.raw-total{margin-top:16px;text-align:left}.raw-columns,.management-list{grid-template-columns:1fr}.edit-dock{align-items:flex-start;gap:12px}.edit-dock .btn{padding:9px}.management-plan-head h2{font-size:22px}}
+.edit-dock{background:linear-gradient(90deg,#e6f9ef,#fff);border-color:#c3ead7}.management-hero{background:linear-gradient(130deg,#fff,#e7f9f0)}.raw-total{background:linear-gradient(135deg,#e5faef,#fff);border-color:#bdebd5}.raw-total em{color:#587568}.raw-card{background:#fff;border-color:#d9e9e1;box-shadow:0 6px 16px rgba(18,76,51,.035)}.pdf-document{position:absolute;left:0;top:0;z-index:9999;box-shadow:0 0 0 10000px rgba(255,255,255,.01)}.reset-day,.delete-mini,.edit-mini{border:0;background:#eef7f2;color:#427261;border-radius:5px;font:10px Manrope;cursor:pointer;padding:4px 6px}.delete-mini{color:#c7544f;background:#fff0ef}.day-actions{display:flex;gap:4px;align-items:start}.task .edit-mini{position:absolute;right:5px;bottom:4px;font-size:9px;padding:2px 4px}.task:has(.edit-mini){padding-right:40px}.raw-card .delete-mini{float:right;margin-top:8px}:root{--bg:#edf7f2;--panel:#fff;--text:#15382c;--muted:#688477;--mint:#16b87d;--line:rgba(20,72,53,.13)}body{background:var(--bg)}.sidebar{background:rgba(255,255,255,.78);box-shadow:10px 0 40px rgba(15,70,45,.04)}.glass,.control-row{background:rgba(255,255,255,.8);box-shadow:0 10px 30px rgba(17,84,55,.045)}.day-card{background:rgba(255,255,255,.9);border-color:#d9e9e1;box-shadow:0 8px 20px rgba(18,76,51,.035)}.task{background:#f3f9f6;color:#244d3d}.btn,.icon-btn{background:#fff;color:#285344;border-color:#d6e9df}.btn-primary{background:linear-gradient(135deg,#1abe82,#0f9d6b);border-color:#1abe82;color:#fff}.segmented{background:#f1f8f4}.segmented button.selected{background:#fff;color:#0c8c5c}.raw-note{background:#f4f9f6;color:#426455}@media(max-width:700px){.raw-report-head,.management-hero{display:block}.raw-total{margin-top:16px;text-align:left}.raw-columns,.management-list{grid-template-columns:1fr}}
+.system-credit{margin:48px 0 4px;padding:18px 0 0;border-top:1px solid var(--line);font:10px 'DM Mono';letter-spacing:1px;color:#709083}.system-credit strong{color:#0f9664}.share-link-card{padding:16px;margin-top:12px;border:1px solid #d5e9df;border-radius:10px;background:#f7fcf9}.share-link-card strong,.share-link-card span{display:block}.share-link-card strong{font-size:13px;color:#163d2f}.share-link-card span{margin:4px 0 10px;font-size:11px;color:#668075}.share-link-card input{width:100%;font:10px 'DM Mono';color:#457564;margin-bottom:9px}input[type=date]{color-scheme:light;color:#1f5741!important;font-weight:700}input[type=date]::-webkit-datetime-edit, input[type=date]::-webkit-datetime-edit-text,input[type=date]::-webkit-datetime-edit-month-field,input[type=date]::-webkit-datetime-edit-day-field,input[type=date]::-webkit-datetime-edit-year-field{color:#1f5741}.partner-only-label{display:inline-block;margin-top:15px;padding:6px 9px;border-radius:5px;background:#edf8f3;color:#11895a;font:9px 'DM Mono';letter-spacing:.8px}.public-management .sidebar,.public-management header,.public-management #forecast-view,.public-management #archive-view{display:none!important}.public-management main{width:min(1700px,100%);padding:42px 5%;margin:0 auto}.public-management #management-view,.public-management #management-detail-view{display:block}.public-management .system-credit{text-align:center}.public-management .management-card small{display:block;margin-top:8px;color:#16875b;font:9px 'DM Mono';letter-spacing:.7px}.public-management .manager-top .back-manager{background:#eef8f2;border:1px solid #d5eade;border-radius:7px;padding:8px 11px}.public-management .manager-top{gap:10px}.public-management .manager-top .btn{margin-left:auto}@media(max-width:700px){.public-management main{padding:22px 14px}.public-management .manager-top{flex-wrap:wrap}.public-management .manager-top .btn{margin-left:0}}
+.mobile-nav-open .sidebar{display:flex!important;position:fixed;z-index:20;inset:0 auto 0 0;width:250px;box-shadow:25px 0 60px rgba(9,45,30,.2)}
+.day-date,#week-range{color:#4c806a!important}.week-picker label{color:#56816f}.day-load{color:#0d9b66}
+.day-load{display:flex;flex-direction:column;align-items:flex-end;gap:2px}.day-load b{font-size:13px;line-height:1}.day-load small{font:8px 'DM Mono';letter-spacing:.15px;color:#5f8a76;white-space:nowrap}.order-summary{margin-top:18px;padding:20px;border-radius:12px;border:1px solid #cfe8dc;background:linear-gradient(120deg,#edf9f3,#fff);display:grid;grid-template-columns:1fr 1.35fr;gap:24px}.order-summary h3{font-size:17px;margin:3px 0}.order-summary p:not(.eyebrow){font-size:11px;line-height:1.55;color:#648074}.order-summary-table{display:grid;grid-template-columns:repeat(2,minmax(140px,1fr));gap:8px}.order-summary-table>div{background:#fff;border:1px solid #d7ebe1;border-radius:8px;padding:10px 12px}.order-summary-table strong{display:block;font-size:11px;color:#234b3b}.order-summary-table span{display:block;font:700 14px Manrope;color:#149a66;margin-top:4px}@media(max-width:700px){.order-summary{grid-template-columns:1fr}.order-summary-table{grid-template-columns:1fr}}
+.week-select-wrap button{background:#eff8f3!important;color:#108f5f!important;border-color:#cce6da!important}.modal-card{background:#fff!important;border-color:#cee7db!important;box-shadow:0 20px 80px rgba(19,71,49,.18)!important}.modal-card h2{color:#15382c}.modal-card>div>p{color:#668477}.close-modal{color:#527669}.shift-title{color:#0f9562}.shift-title.afternoon{color:#765acb}.note-pill{background:#fff5e9;color:#a86422}.log-item{color:#7b4c1a}.log-item.receive{color:#285e9f}
+.forecast-by,.forecast-by span,.forecast-by input,.week-picker,.week-picker span{color:#315f4d!important}.forecast-by input{background:#fff!important;border-color:#cfe5da!important}.day-date{font-weight:700!important}.log-item{position:relative;padding-right:66px}.log-check,.edit-log{position:absolute;right:6px;border:1px solid #c8e5d8;background:#fff;color:#168c5d;border-radius:4px;font:700 9px Manrope;padding:3px 5px;cursor:pointer}.log-check{top:5px;width:18px;height:18px;padding:0}.edit-log{bottom:5px;color:#56766a;border-color:#dcebe4}.log-item.done{opacity:.58;text-decoration:line-through}.log-item.done .edit-log{display:none}.pdf-document .log-check,.pdf-document .edit-log{display:none}
+
+/* Final light-mode field pass: no black or dark data-entry surfaces. */
+html{color-scheme:light}body,.modal{background-color:#edf7f2}.modal{background:rgba(218,239,228,.72)!important}.control-row,.glass,.management-hero,.archive-hero,.raw-hero,.modal-card,.day-card,.raw-card,.management-card,.archive-card{color:#15382c!important}input,select,textarea,input[type=date],.forecast-by input{background:#fff!important;color:#173d2f!important;border:1px solid #c9e2d5!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.9)!important}input::placeholder,textarea::placeholder{color:#84a095!important;opacity:1}.week-select-wrap{background:#fff;border:1px solid #c9e2d5;border-radius:8px;overflow:hidden}.week-select-wrap button{background:#f2faf5!important}.week-select-wrap input[type=date]{border:0!important;border-radius:0!important}.segmented{background:#eef8f3!important;border-color:#d2e8dc!important}.segmented button{color:#527568!important}.segmented button.selected{background:#fff!important;color:#0e9260!important}.task{background:#f3faf6!important;color:#214838!important;border-color:#e1f0e8}.empty-day{color:#668578}.modal-card label,.field label{color:#4b7562!important}.modal .btn-ghost{background:#f3f9f6!important}.close-modal{background:#eff8f3!important;border-radius:50%;width:30px;height:30px}.overview-copy,.legend,.raw-report-head p,.management-hero p,.management-plan-head p{color:#5e7c6f!important}.side-footer{background:#f3faf6;border-radius:8px}.week-picker label,.raw-scope label,.eyebrow{color:#558171!important}.raw-total,.order-summary{color:#15382c}.log-item{background:#fff7ee!important}.log-item.receive{background:#eff7ff!important}.status{background:#e5f8ee!important;color:#168b5d!important}.status.alert{background:#fff0ef!important;color:#c85752!important}
+.raw-column-head{display:grid;grid-template-columns:1.4fr .8fr .8fr;gap:8px;padding:0 0 7px;color:#709083;font:8px 'DM Mono';letter-spacing:.45px}.raw-material-line{position:relative;padding-right:30px}.raw-material-line.done{opacity:.55;text-decoration:line-through;background:#eef7f2}.raw-arrival-tick{position:absolute;right:3px;top:7px;width:17px;height:17px;padding:0;border-radius:4px;border:1px solid #b9ddcc;background:#fff;color:#138d5c;font-weight:800;cursor:pointer}.raw-card-actions{display:flex;justify-content:flex-end;gap:6px;margin-top:10px}.material-form-head{display:flex;justify-content:space-between;align-items:center;margin:22px 0 9px;font-size:12px;color:#285344}.material-entry-head,.material-entry{display:grid;grid-template-columns:1.1fr 1fr 1fr .8fr 25px;gap:7px;align-items:center}.material-entry-head{padding:0 4px 6px;color:#638174;font:8px 'DM Mono';letter-spacing:.4px}.material-entry{padding:8px 0;border-bottom:1px solid #e3f0e9}.material-entry input{min-width:0;padding:7px}.material-entry label{font-size:10px!important;white-space:nowrap}.material-entry .remove-material{border:0;background:#fff0ef;color:#bc5b55;border-radius:4px;width:22px;height:22px;cursor:pointer}.raw-choice{display:flex;gap:9px;margin-top:22px}@media(max-width:700px){.material-entry-head{display:none}.material-entry{grid-template-columns:1fr 25px}.material-entry input,.material-entry label{grid-column:1}.material-entry .remove-material{grid-column:2;grid-row:1}.material-form-head{align-items:flex-start;gap:10px}.raw-column-head{font-size:7px}}
+
+
+</style>
+<style>
+  /* Raw readiness: high-clarity enough / need-to-order states */
+  .raw-client strong { color: #0a8255; font-weight: 800; }
+  .raw-readiness-head { grid-template-columns: 1.2fr .8fr .9fr .9fr !important; }
+  .raw-material-line { grid-template-columns: 1.2fr .8fr .9fr .9fr !important; align-items: center; }
+  .enough-row { background: #effaf4 !important; }
+  .enough-pill, .need-pill { display: inline-flex; align-items: center; width: fit-content; padding: 4px 6px; border-radius: 5px; font: 800 8px 'DM Mono', monospace; letter-spacing: .15px; }
+  .enough-pill { color: #087a50; background: #dff7e9; }
+  .need-pill { color: #b15d1f; background: #fff0df; }
+  .to-order-value { color: #b04e11 !important; background: #fff0df; border: 1px solid #ffd1ab; border-radius: 5px; padding: 4px 6px; font-size: 10px; }
+  .not-required { color: #699182; font-size: 10px; }
+  .raw-material-line.done { background: #f0f6f2 !important; text-decoration: line-through; opacity: .62; }
+  .material-editor-head, .material-entry-v2 { display: grid; grid-template-columns: 1.1fr .9fr 1fr 1fr .8fr 24px; gap: 7px; align-items: center; }
+  .material-editor-head { padding: 0 3px 7px; color: #638174; font: 8px 'DM Mono', monospace; letter-spacing: .4px; }
+  .material-entry-v2 { padding: 8px 0; border-bottom: 1px solid #e2f0e8; }
+  .material-entry-v2 input, .material-entry-v2 select { width: 100%; min-width: 0; padding: 7px; }
+  .material-entry-v2 .material-order { background: #fff4e9 !important; border-color: #ffcfa9 !important; color: #9b4712 !important; font-weight: 800; }
+  .material-entry-v2 .material-track-label { font: 10px Manrope, sans-serif; white-space: nowrap; color: #527568 !important; }
+  .material-entry-v2 .remove-material-v2 { border: 0; background: #fff0ef; color: #bd5a54; width: 23px; height: 23px; border-radius: 5px; cursor: pointer; }
+  .material-entry-v2.is-enough .shortage-input { visibility: hidden; pointer-events: none; }
+  .material-entry-v2.is-enough .material-availability { color: #087e52 !important; background: #effaf4 !important; border-color: #bce7d0 !important; font-weight: 700; }
+  @media (max-width: 700px) {
+    .raw-readiness-head { display: none; }
+    .raw-material-line { grid-template-columns: 1.2fr .8fr .9fr .9fr !important; font-size: 9px; }
+    .material-editor-head { display: none; }
+    .material-entry-v2 { grid-template-columns: 1fr 24px; }
+    .material-entry-v2 > :not(.remove-material-v2) { grid-column: 1; }
+    .material-entry-v2 .remove-material-v2 { grid-column: 2; grid-row: 1; }
+  }
+</style>
+</head>
+<body>
+  <div class="aurora a1"></div><div class="aurora a2"></div><div class="grid-bg"></div>
+  <div id="app">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">LB</div><div><strong>LekorBites</strong><span>OPERATIONS STUDIO</span></div></div>
+      <nav>
+        <button class="nav-item active" data-view="forecast"><span>◈</span> Forecast studio</button>
+        <button class="nav-item" data-view="management"><span>◉</span> Management view</button>
+        <button class="nav-item" data-view="archive"><span>▤</span> Forecast archive</button>
+      </nav>
+      <div class="side-footer"><span class="pulse"></span><span id="sync-status">LIVE UPDATES ON</span></div>
+    </aside>
+
+    <main>
+      <header>
+        <button class="mobile-menu" aria-label="Menu">☰</button>
+        <div><p class="eyebrow">WAREHOUSE PLANNING</p><h1 id="page-title">Forecast board</h1></div>
+        <div class="header-actions">
+          <button class="icon-btn" id="share-btn" title="Open management preview">↗</button>
+          <button class="btn btn-ghost" id="export-btn">⇩ <span>Export PDF</span></button>
+          <button class="btn btn-primary" id="new-btn">＋ New week</button>
+        </div>
+      </header>
+
+      <section id="forecast-view" class="view">
+        <div class="control-row glass">
+          <div class="week-picker"><label>VIEWING WEEK</label><div class="week-select-wrap"><button id="prev-week">‹</button><input type="date" id="week-date"><button id="next-week">›</button></div><span id="week-range"></span></div>
+          <div class="segmented" id="audience-tabs"><button class="selected" data-audience="internal">Lekor Bites <small>INTERNAL</small></button><button data-audience="partner">LB × Yong Mama <small>PARTNER</small></button></div>
+          <div class="forecast-by"><span>Forecast by</span><input id="forecaster" placeholder="Optional name"></div>
+        </div>
+        <div class="overview-row">
+          <div class="overview-copy"><span class="live-dot"></span><span>Planning is live</span><strong id="overview-week">This week at a glance</strong></div>
+          <div class="metrics"><div><b id="task-count">0</b><span>tasks</span></div><div><b id="outbound-count">0</b><span>outbound</span></div><div><b id="raw-alert-count">0</b><span>raw alerts</span></div></div>
+        </div>
+        <div class="calendar-wrap" id="calendar-wrap"></div>
+        <div class="legend"><span><i class="legend-dot mint"></i>Morning shift</span><span><i class="legend-dot violet"></i>Afternoon shift</span><span><i class="legend-dot orange"></i>Send out</span><span><i class="legend-dot blue"></i>Receive raw</span><span><i class="legend-dot check"></i>Complete</span></div>
+        <div class="edit-dock" id="edit-dock"><div><span class="eyebrow">PLANNING CONTROL</span><strong id="edit-state-label">Forecast is protected</strong></div><div><button class="btn btn-ghost" id="edit-btn">✎ Edit forecast</button><span id="editing-actions" class="hidden"><button class="btn btn-ghost" id="reset-week">↺ Reset week</button><button class="btn btn-primary" id="save-btn">✓ Save live changes</button></span></div></div>
+        <section class="raw-inline" id="raw-inline"></section>
+      </section>
+
+      <section id="management-view" class="view hidden"><div class="management-hero glass"><div><p class="eyebrow">LEKORBITES SDN BHD</p><h2>Management forecast view</h2><p>Live, read-only weekly planning. Select a week to review operations and raw-material readiness.</p></div><span class="secure-label">READ ONLY · LIVE</span></div><div id="management-list" class="management-list"></div></section>
+      <section id="management-detail-view" class="view hidden"></section>
+
+      <section id="archive-view" class="view hidden"><div class="archive-hero glass"><p class="eyebrow">SHARED MANAGEMENT VIEW</p><h2>Forecast archive</h2><p>Select any weekly plan to view its latest live planning, tasks, logistics, and raw-material notes.</p></div><div id="archive-list" class="archive-list"></div></section>
+      <footer class="system-credit">SYSTEM DEVELOPED BY <strong>KHAIR</strong></footer>
+    </main>
+  </div>
+
+  <div id="modal" class="modal hidden"><div class="modal-card"><button class="close-modal">×</button><div id="modal-content"></div></div></div>
+  <div id="toast"></div>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+const firebaseConfig={apiKey:'AIzaSyCSvwarS7cWSQD4tqUes-C80g7HaoTzlgM',authDomain:'maintenance-tracker-2bbbe.firebaseapp.com',databaseURL:'https://maintenance-tracker-2bbbe-default-rtdb.asia-southeast1.firebasedatabase.app',projectId:'maintenance-tracker-2bbbe',storageBucket:'maintenance-tracker-2bbbe.firebasestorage.app',messagingSenderId:'333034424822',appId:'1:333034424822:web:959bed60ff1553734ddfd7'};let db;try{firebase.initializeApp(firebaseConfig);db=firebase.database()}catch(e){}
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],cp=x=>JSON.parse(JSON.stringify(x));let state={week:'2026-09-21',audience:'internal',editing:false,data:{}};
+const demo={'2026-09-21':{forecaster:'Operations Team',days:{0:{load:65,morning:[{text:'Packing for order PO_0987',check:true},{text:'Deep cleaning — packing area'}],afternoon:[{text:'Frying · Prawn Muruku (80 packs)',check:true}],note:'Production depends on raw material arrival time.'},1:{load:88,morning:[{text:'Prepare order PO_0987',check:true}],afternoon:[{text:'Packing for order PO_0987',check:true}],out:['Expected send out · PO_0987'],raw:['Receive · Prawn meat (15 packs)']},2:{load:42,morning:[{text:'Packing for order PO_1012',check:true}],afternoon:[{text:'Cleaning · fryer & tools'}]},3:{load:72,morning:[{text:'Frying · Lekor bites original',check:true}],afternoon:[{text:'Prepare order PO_1012',check:true}],raw:['Receive · Packaging bags (500 pcs)']},4:{load:55,morning:[{text:'Packing for order PO_1012',check:true}],afternoon:[{text:'Weekly inventory count'}],out:['Expected send out · PO_1012']},5:{load:30,morning:[{text:'Warehouse reset & cleaning'}],afternoon:[{text:'Buffer stock preparation'}]}},raw:{internal:{orders:[{id:'PO_0987',status:'Shortage',items:[['Prawn meat','24 packs','Order 15 packs'],['Packaging bags','400 pcs','Sufficient']],note:'24 packs of prawn meat are reserved to settle this order only.'},{id:'PO_1012',status:'Ready',items:[['Fish paste','58 kg','Sufficient'],['Seasoning mix','8 kg','Sufficient']],note:'All materials allocated and ready for production.'}],buffer:[{sku:'Prawn Muruku',current:'40 kg',target:'160 kg',remark:'Order 120 kg to restore buffer level.',status:'Shortage'},{sku:'Lekor Bites Original',current:'180 kg',target:'200 kg',remark:'Small top-up needed next week.',status:'Watch'}]},partner:{orders:[{id:'YM_3004',status:'Ready',items:[['Yong Mama sauce','32 bottles','Sufficient'],['Frozen lekor','95 kg','Sufficient']],note:'Materials allocated for co-brand production.'}],buffer:[{sku:'Yong Mama sauce',current:'32 bottles',target:'50 bottles',remark:'Order 18 bottles with next delivery.',status:'Shortage'}]}}}};
+function add(n){let d=new Date(state.week+'T12:00:00');d.setDate(d.getDate()+n);return d}function fmt(){return `${add(0).toLocaleDateString('en-GB',{day:'numeric',month:'short'})} — ${add(5).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`}function monday(x){let d=new Date(x+'T12:00:00'),n=d.getDay();d.setDate(d.getDate()-(n===0?6:n-1));return d.toISOString().slice(0,10)}function W(){if(!state.data[state.week]){let x=cp(demo['2026-09-21']);x.days={};state.data[state.week]=x}return state.data[state.week]}function save(){localStorage.setItem('lb-forecast-v2',JSON.stringify(state.data));if(db)db.ref('lekorbites-forecast').set(state.data).catch(()=>$('#sync-status').textContent='SAVED LOCALLY')}
+function task(x,t,d,i,lock){return `<div class="task ${t} ${x.done?'done':''} ${lock?'locked':''}">${x.text}${x.check&&state.editing&&!lock?`<span class="checkbox" data-check="${d}|${t}|${i}">${x.done?'✓':''}</span>`:''}</div>`}function cal(lock=false){let h='',w=W(),internal=state.audience==='internal';for(let i=0;i<6;i++){let d=w.days[i]||{},m=d.morning||[],p=d.afternoon||[],all=[...m.map((x,j)=>({x,t:'morning',j})),...p.map((x,j)=>({x,t:'afternoon',j}))];h+=`<article class="day-card"><div class="day-head"><div><span class="day-name">${days[i]}</span><span class="day-date">${add(i).toLocaleDateString('en-GB',{day:'numeric',month:'short'})}</span></div><span class="day-load">${d.load||0}%</span></div><div class="battery"><span style="width:${d.load||0}%"></span></div>${internal?`<div class="shift"><div class="shift-title">MORNING SESSION</div>${m.length?m.map((x,j)=>task(x,'morning',i,j,lock)).join(''):'<div class="empty-day">No session planned</div>'}</div><div class="shift"><div class="shift-title afternoon">AFTERNOON SESSION</div>${p.length?p.map((x,j)=>task(x,'afternoon',i,j,lock)).join(''):'<div class="empty-day">No session planned</div>'}</div>`:`<div class="shift"><div class="shift-title">DAILY FOCUS</div>${all.length?all.map(v=>task(v.x,v.t,i,v.j,lock)).join(''):'<div class="empty-day">No plan shared</div>'}</div>`}<div class="logistics">${(d.out||[]).map(x=>`<div class="log-item">SEND OUT · ${x}</div>`).join('')}${(d.raw||[]).map(x=>`<div class="log-item receive">RECEIVE RAW · ${x}</div>`).join('')}</div>${d.note?`<div class="shift"><span class="note-pill">NOTE · ${d.note}</span></div>`:''}${state.editing&&!lock?`<button class="add-day" data-add="${i}">＋ Add activity</button>`:''}</article>`}return h}
+function raw(print=false){let r=W().raw[state.audience],kg=0;r.buffer.forEach(x=>{let a=parseFloat(x.current)||0,b=parseFloat(x.target)||0;if(/kg/i.test(x.target))kg+=Math.max(0,b-a)});let title=state.audience==='internal'?'Lekor Bites':'Lekor Bites × Yong Mama';return `<section class="raw-report"><div class="raw-report-head"><div><p class="eyebrow">MATERIAL READINESS · ${fmt().toUpperCase()}</p><h2>${title} raw report</h2><p>Order allocation and current buffer-stock readiness in one weekly report.</p></div><div class="raw-total"><span>TOTAL TO REPLENISH</span><b>${kg} <small>KG</small></b><em>Calculated buffer shortfall</em></div></div><div class="raw-columns"><div><div class="raw-label">BASED ON ORDERS</div>${r.orders.map(o=>`<article class="raw-card"><div class="raw-card-head"><div><h3>${o.id}</h3><p>Order material allocation</p></div><span class="status ${o.status==='Shortage'?'alert':''}">${o.status.toUpperCase()}</span></div>${o.items.map(x=>`<div class="raw-line"><b>${x[0]}</b><span>${x[1]}</span><span>${x[2]}</span></div>`).join('')}<div class="raw-note">${o.note}</div></article>`).join('')}</div><div><div class="raw-label">CURRENT BUFFER STOCK</div>${r.buffer.map(x=>`<article class="raw-card"><div class="raw-card-head"><div><h3>${x.sku}</h3><p>Current buffer stock</p></div><span class="status ${x.status==='Shortage'?'alert':''}">${x.status.toUpperCase()}</span></div><div class="raw-line"><b>Current balance</b><span>${x.current}</span><span>Target ${x.target}</span></div><div class="raw-note">${x.remark}</div></article>`).join('')}</div></div>${state.editing&&!print?'<button class="add-raw-inline" id="add-raw">＋ Add raw record</button>':''}</section>`}
+function render(){let w=W(),n=0,o=0;Object.values(w.days).forEach(x=>{n+=(x.morning||[]).length+(x.afternoon||[]).length;o+=(x.out||[]).length});$('#week-date').value=state.week;$('#week-range').textContent=fmt();$('#overview-week').textContent=`${add(0).toLocaleDateString('en-US',{month:'long',year:'numeric'})} warehouse plan`;$('#forecaster').value=w.forecaster||'';$('#forecaster').disabled=!state.editing;$('#calendar-wrap').innerHTML=cal();$('#raw-inline').innerHTML=raw();$('#task-count').textContent=n;$('#outbound-count').textContent=o;$('#raw-alert-count').textContent=(w.raw[state.audience].orders||[]).filter(x=>x.status==='Shortage').length;$('#edit-btn').classList.toggle('hidden',state.editing);$('#save-btn').classList.toggle('hidden',!state.editing);$('#edit-state-label').textContent=state.editing?'Editing live forecast':'Forecast is protected'}
+function modal(h){$('#modal-content').innerHTML=h;$('#modal').classList.remove('hidden')}function close(){$('#modal').classList.add('hidden')}function toast(x){let t=$('#toast');t.textContent=x;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+function activity(i){modal(`<h2>Add activity</h2><p>Plan a task, delivery, raw receipt or planning note.</p><form id="f"><div class="form-grid"><div class="field"><label>TYPE</label><select name="type"><option value="morning">Morning session</option><option value="afternoon">Afternoon session</option><option value="out">Send out order</option><option value="raw">Receive raw</option><option value="note">Planning note</option></select></div><div class="field"><label>WORKLOAD LEVEL</label><input name="load" type="number" min="0" max="100" value="50"></div><div class="field full"><label>DESCRIPTION</label><input name="text" required></div><div class="field"><label><input name="check" type="checkbox" checked> Requires completion tick</label></div></div><div class="modal-actions"><button class="btn btn-primary">Add activity</button></div></form>`);$('#f').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target),t=f.get('type'),d=W().days[i]||(W().days[i]={});d.load=+f.get('load');if(t==='note')d.note=f.get('text');else if(t==='out'||t==='raw')(d[t]||(d[t]=[])).push(f.get('text'));else(d[t]||(d[t]=[])).push({text:f.get('text'),check:!!f.get('check')});close();render()}}
+function addRaw(){modal(`<h2>Add raw-material record</h2><p>It will appear inside this week’s formal raw report.</p><form id="r"><div class="form-grid"><div class="field"><label>TYPE</label><select name="type"><option value="buffer">Buffer stock</option><option value="orders">Order readiness</option></select></div><div class="field"><label>ORDER / SKU</label><input name="name" required></div><div class="field"><label>CURRENT BALANCE</label><input name="current" required placeholder="e.g. 40 kg"></div><div class="field"><label>NEEDED / TARGET</label><input name="target" required placeholder="e.g. 160 kg"></div><div class="field full"><label>REMARK</label><textarea name="note" required></textarea></div></div><div class="modal-actions"><button class="btn btn-primary">Add to report</button></div></form>`);$('#r').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target),r=W().raw[state.audience];if(f.get('type')==='buffer')r.buffer.push({sku:f.get('name'),current:f.get('current'),target:f.get('target'),remark:f.get('note'),status:'Shortage'});else r.orders.push({id:f.get('name'),status:'Shortage',items:[[f.get('name'),f.get('current'),`Order ${f.get('target')}`]],note:f.get('note')});close();render()}}
+function management(detail=false){if(!detail){$('#management-list').innerHTML=Object.keys(state.data).sort().map(x=>`<button class="management-card glass" data-week="${x}"><span>WEEKLY FORECAST</span><strong>${x} · ${x===state.week?fmt():new Date(x+'T12:00:00').toLocaleDateString('en-GB')}</strong><em>Open live read-only plan <b>→</b></em></button>`).join('')}else $('#management-detail-view').innerHTML=`<div class="manager-top"><button id="back-manager" class="back-manager">← All weeks</button><span class="secure-label">READ ONLY · LIVE</span></div><div class="management-plan-head"><p class="eyebrow">LEKORBITES SDN BHD · LIVE WEEKLY PLAN</p><h2>${fmt()}</h2><p>Warehouse forecast, logistics, notes, and raw-material readiness.</p><div class="segmented"><button class="selected" data-ma="internal">Lekor Bites</button><button data-ma="partner">LB × Yong Mama</button></div></div><div class="calendar-wrap manager-calendar">${cal(true)}</div>${raw(true)}`}
+function show(v){$$('.view').forEach(x=>x.classList.add('hidden'));$(`#${v}-view`).classList.remove('hidden');$$('.nav-item').forEach(x=>x.classList.toggle('active',x.dataset.view===v));$('#page-title').textContent=v==='forecast'?'Forecast studio':v==='management'?'Management view':'Forecast archive';if(v==='management')management();if(v==='archive')$('#archive-list').innerHTML=Object.keys(state.data).sort().map(x=>`<article class="archive-card glass" data-archive="${x}"><p>WEEKLY FORECAST</p><h3>${x}</h3><p>Live plan available</p></article>`).join('')}
+function pdf(){let p=document.createElement('div');p.className='pdf-document';p.innerHTML=`<div class="pdf-header"><div><span>LEKORBITES SDN BHD</span><h1>Weekly warehouse forecast</h1><p>${fmt()}</p></div><b>LIVE PLANNING REPORT</b></div><div class="pdf-calendar">${cal(true)}</div>${raw(true)}<footer>Prepared by ${W().forecaster||'LekorBites Operations'}</footer>`;document.body.appendChild(p);html2pdf().set({margin:9,filename:`LekorBites_${state.week}.pdf`,html2canvas:{scale:1.3,backgroundColor:'#fff'},jsPDF:{unit:'mm',format:'a4',orientation:'landscape'},pagebreak:{mode:['css','legacy']}}).from(p).save().then(()=>p.remove())}
+function init(){state.data=JSON.parse(localStorage.getItem('lb-forecast-v2')||'null')||cp(demo);if(db)db.ref('lekorbites-forecast').on('value',x=>{if(x.val()){state.data=x.val();render()}else save()},()=>$('#sync-status').textContent='SAVED LOCALLY');render();$('#edit-btn').onclick=()=>{state.editing=true;render();toast('Edit mode enabled')};$('#save-btn').onclick=()=>{save();state.editing=false;render();toast('Live forecast saved')};$('#export-btn').onclick=pdf;$('#share-btn').onclick=()=>show('management');$('#week-date').onchange=e=>{state.week=monday(e.target.value);state.editing=false;render()};$('#prev-week').onclick=()=>{state.week=monday(add(-7).toISOString().slice(0,10));render()};$('#next-week').onclick=()=>{state.week=monday(add(7).toISOString().slice(0,10));render()};$('#forecaster').onchange=e=>W().forecaster=e.target.value;$('#new-btn').onclick=()=>{state.week=monday($('#week-date').value);state.week=monday(add(7).toISOString().slice(0,10));W();state.editing=true;render()};$('#audience-tabs').onclick=e=>{let x=e.target.closest('button');if(x){state.audience=x.dataset.audience;$$('#audience-tabs button').forEach(b=>b.classList.toggle('selected',b===x));render()}};$$('.nav-item').forEach(x=>x.onclick=()=>show(x.dataset.view));document.addEventListener('click',e=>{if(e.target.matches('.close-modal')||e.target===$('#modal'))close();let x=e.target.closest('[data-add]');if(x&&state.editing)activity(+x.dataset.add);if(e.target.id==='add-raw'&&state.editing)addRaw();let c=e.target.closest('[data-check]');if(c&&state.editing){let[d,t,i]=c.dataset.check.split('|'),z=W().days[d][t][i];z.done=!z.done;render()}let m=e.target.closest('[data-week]');if(m){state.week=m.dataset.week;$('#management-view').classList.add('hidden');$('#management-detail-view').classList.remove('hidden');management(true)}if(e.target.id==='back-manager')show('management');let q=e.target.closest('[data-ma]');if(q){state.audience=q.dataset.ma;management(true)}let a=e.target.closest('[data-archive]');if(a){state.week=a.dataset.archive;show('forecast');render()}})}init();
+const calendarBase=cal;
+function task(x,t,d,i,lock){return `<div class="task ${t} ${x.done?'done':''} ${lock?'locked':''}" data-task="${d}|${t}|${i}">${x.text}${x.check&&state.editing&&!lock?`<span class="checkbox" data-check="${d}|${t}|${i}">${x.done?'✓':''}</span>`:''}${state.editing&&!lock?'<button class="edit-mini">Edit</button>':''}</div>`}
+function calEnhanced(lock=false){let h=calendarBase(lock);if(state.editing&&!lock){let i=0;h=h.replace(/<span class="day-load">[^<]+<\/span><\/div><div class="battery">/g,m=>`<div class="day-actions"><button class="reset-day" data-reset-day="${i++}">Reset day</button></div>${m}`)}return h}
+function raw(print=false){let r=W().raw[state.audience],kg=0;r.buffer.forEach(x=>{if(/kg/i.test(x.target))kg+=Math.max(0,(parseFloat(x.target)||0)-(parseFloat(x.current)||0))});let cards=(list,type,fn)=>list.map((x,i)=>`${fn(x)}${state.editing&&!print?`<button class="delete-mini" data-raw-delete="${type}|${i}">Delete</button>`:''}`).join('');let order=x=>`<article class="raw-card"><div class="raw-card-head"><div><h3>${x.id}</h3><p>Order material allocation</p></div><span class="status ${x.status==='Shortage'?'alert':''}">${x.status.toUpperCase()}</span></div>${x.items.map(v=>`<div class="raw-line"><b>${v[0]}</b><span>${v[1]}</span><span>${v[2]}</span></div>`).join('')}<div class="raw-note">${x.note}</div></article>`;let buffer=x=>`<article class="raw-card"><div class="raw-card-head"><div><h3>${x.sku}</h3><p>Current buffer stock</p></div><span class="status ${x.status==='Shortage'?'alert':''}">${x.status.toUpperCase()}</span></div><div class="raw-line"><b>Current balance</b><span>${x.current}</span><span>Target ${x.target}</span></div><div class="raw-note">${x.remark}</div></article>`;return `<section class="raw-report"><div class="raw-report-head"><div><p class="eyebrow">MATERIAL READINESS · ${fmt().toUpperCase()}</p><h2>${state.audience==='internal'?'Lekor Bites':'Lekor Bites × Yong Mama'} raw report</h2><p>Order allocation and current buffer-stock readiness in one weekly report.</p></div><div class="raw-total"><span>TOTAL TO REPLENISH</span><b>${kg} <small>KG</small></b><em>Calculated buffer shortfall</em></div></div><div class="raw-columns"><div><div class="raw-label">BASED ON ORDERS</div>${cards(r.orders,'orders',order)||'<p class="empty-day">No order records.</p>'}</div><div><div class="raw-label">CURRENT BUFFER STOCK</div>${cards(r.buffer,'buffer',buffer)||'<p class="empty-day">No buffer records.</p>'}</div></div>${state.editing&&!print?'<button class="add-raw-inline" id="add-raw">＋ Add custom raw record</button>':''}</section>`}
+function editTask(key){let[d,t,i]=key.split('|'),x=W().days[d][t][i];modal(`<h2>Edit activity</h2><form id="edit-task-form"><div class="field"><label>ACTIVITY / DESCRIPTION</label><input name="text" value="${x.text.replaceAll('"','&quot;')}" required></div><div class="modal-actions"><button type="button" id="delete-task" class="btn btn-ghost">Delete activity</button><button class="btn btn-primary">Save changes</button></div></form>`);$('#edit-task-form').onsubmit=e=>{e.preventDefault();x.text=new FormData(e.target).get('text');close();render()};$('#delete-task').onclick=()=>{W().days[d][t].splice(i,1);close();render()}}
+document.addEventListener('click',e=>{let z=e.target.closest('[data-task]');if(z&&e.target.closest('.edit-mini')&&state.editing)editTask(z.dataset.task);let d=e.target.closest('[data-raw-delete]');if(d&&state.editing){let[a,i]=d.dataset.rawDelete.split('|');W().raw[state.audience][a].splice(+i,1);render()}let rd=e.target.closest('[data-reset-day]');if(rd&&state.editing){W().days[rd.dataset.resetDay]={load:0,morning:[],afternoon:[]};render()}});
+$('#reset-week').onclick=()=>{if(state.editing){W().days={};render();toast('Weekly tasks reset')}};
+$('#edit-btn').addEventListener('click',()=>$('#editing-actions').classList.remove('hidden'));$('#save-btn').addEventListener('click',()=>$('#editing-actions').classList.add('hidden'));
+cal=calEnhanced;
+render();
+
+function busyLabel(load){if(load>=85)return 'Peak load';if(load>=65)return 'High activity';if(load>=40)return 'Steady flow';if(load>0)return 'Light schedule';return 'Open capacity'}
+function calBusy(lock=false){let html=calEnhanced(lock);let loadIndex=0;return html.replace(/<span class="day-load">(\d+)%<\/span>/g,(_,load)=>`<span class="day-load"><b>${load}%</b><small>${busyLabel(+load)}</small></span>`).replace(/data-reset-day="\d+"/g,()=>`data-reset-day="${loadIndex++}"`)}
+cal=calBusy;
+
+function normalizedRawName(name){return String(name||'').replace(/^order\s+/i,'').replace(/\s*\([^)]*\)/g,'').trim().toLowerCase()}
+function orderShortages(){let source=W().raw[state.audience],map={};let collect=(name,amount,unit)=>{let key=normalizedRawName(name);if(!key||!amount)return;let x=map[key]||(map[key]={name:String(name).trim(),amount:0,unit:unit||''});if(!x.unit&&unit)x.unit=unit;x.amount+=amount};source.buffer.forEach(item=>{let current=parseFloat(item.current)||0,target=parseFloat(item.target)||0,unit=(String(item.target).match(/[a-zA-Z]+/)||[''])[0];if(target>current)collect(item.sku,target-current,unit)});source.orders.forEach(order=>order.items.forEach(item=>{let match=String(item[2]).match(/(?:order|need(?:ed)?\s*(?:to\s*order)?)\s*(\d+(?:\.\d+)?)\s*([a-zA-Z]+)/i);if(match)collect(item[0],+match[1],match[2])}));return Object.values(map)}
+const rawBase=raw;
+function rawWithOrderTable(print=false){let content=rawBase(print),needed=orderShortages();let table=`<section class="order-summary"><div><p class="eyebrow">CONSOLIDATED PROCUREMENT</p><h3>Need to order</h3><p>Combined material quantity from order preparation and buffer replenishment.</p></div><div class="order-summary-table">${needed.length?needed.map(x=>`<div><strong>${x.name}</strong><span>${Number.isInteger(x.amount)?x.amount:x.amount.toFixed(1)} ${x.unit}</span></div>`).join(''):'<div><strong>No materials pending</strong><span>All raw materials are sufficient</span></div>'}</div></section>`;return content+table}
+raw=rawWithOrderTable;
+render();
+
+function publicUrl(scope){let base=location.href.split('?')[0];return `${base}?management=1&scope=${scope}`}
+function copyPublicLinks(){modal(`<h2>Management viewing links</h2><p>These links open a protected, read-only management area with no editor navigation or sidebar.</p><div class="share-link-card"><strong>Full management view</strong><span>Internal forecast and Lekor Bites × Yong Mama forecast.</span><input readonly value="${publicUrl('all')}"><button class="btn btn-primary" data-copy-link="${publicUrl('all')}">Copy full view link</button></div><div class="share-link-card"><strong>Lekor Bites only</strong><span>Lekor Bites internal forecast and raw report only.</span><input readonly value="${publicUrl('internal')}"><button class="btn btn-primary" data-copy-link="${publicUrl('internal')}">Copy Lekor Bites link</button></div><div class="share-link-card"><strong>Lekor Bites × Yong Mama only</strong><span>Partner-only forecast and raw report.</span><input readonly value="${publicUrl('partner')}"><button class="btn btn-primary" data-copy-link="${publicUrl('partner')}">Copy partner link</button></div>`)}
+$('#share-btn').onclick=copyPublicLinks;
+
+function renderPublicManagement(scope){document.body.classList.add('public-management');state.editing=false;state.audience=scope==='partner'?'partner':'internal';show('management');let title=scope==='partner'?'Lekor Bites × Yong Mama — management view':scope==='internal'?'Lekor Bites — management view':'LekorBites — management view';let onlyScope=scope==='partner'||scope==='internal';let onlyLabel=scope==='partner'?'LEKOR BITES × YONG MAMA ONLY':'LEKOR BITES ONLY';$('#page-title').textContent=title;let originalManagement=management;management=function(detail=false){originalManagement(detail);if(detail){let top=$('.manager-top');if(top&&!$('#management-pdf'))top.insertAdjacentHTML('beforeend','<button class="btn btn-primary" id="management-pdf">⇩ Print PDF</button>');if(onlyScope){$$('[data-ma]').forEach(x=>x.remove());let head=$('.management-plan-head');if(head&&!$('.partner-only-label'))head.insertAdjacentHTML('beforeend',`<span class="partner-only-label">${onlyLabel}</span>`)}}else{let hero=$('.management-hero');if(!hero){$('#management-view').insertAdjacentHTML('afterbegin',`<div class="management-hero glass"><div><p class="eyebrow">LEKORBITES SDN BHD</p><h2>${title}</h2><p>Live weekly planning. Select a week to view the latest operations and material readiness report.</p></div><span class="secure-label">READ ONLY · LIVE</span></div>`)};if(onlyScope)$$('.management-card').forEach(card=>card.insertAdjacentHTML('beforeend',`<small>${onlyLabel}</small>`))}};management(false)}
+const publicParams=new URLSearchParams(location.search);if(publicParams.get('management')==='1'){let publicScope=publicParams.get('scope');renderPublicManagement(publicScope==='partner'||publicScope==='internal'?publicScope:'all');}
+
+document.addEventListener('click',e=>{let copy=e.target.closest('[data-copy-link]');if(copy){navigator.clipboard?.writeText(copy.dataset.copyLink);copy.textContent='Copied ✓';toast('Management viewing link copied')}if(e.target.id==='management-pdf')pdf()});
+$('.mobile-menu').onclick=()=>document.body.classList.toggle('mobile-nav-open');
+if(db&&publicParams.get('management')==='1')db.ref('lekorbites-forecast').on('value',snapshot=>{if(!snapshot.val())return;state.data=snapshot.val();if(!$('#management-detail-view').classList.contains('hidden'))management(true);else management(false)});
+
+function logText(value){return typeof value==='object'?(value.text||value.label||''):String(value||'')}
+function logState(day,type,index){day.logStatus||(day.logStatus={out:[],raw:[]});day.logStatus[type]||(day.logStatus[type]=[]);day.logStatus[type][index]||(day.logStatus[type][index]={check:false,done:false});return day.logStatus[type][index]}
+function calWithLogControls(lock=false){let w=W();for(let d of Object.values(w.days)){for(let type of ['out','raw'])if(d[type])d[type]=d[type].map((value,index)=>{if(typeof value==='object'){let status=logState(d,type,index);status.check=value.check??status.check;status.done=value.done??status.done;return logText(value)}return value})}let queue=[];for(let i=0;i<6;i++){let day=w.days[i]||{};(day.out||[]).forEach((_,index)=>queue.push({day,type:'out',index}));(day.raw||[]).forEach((_,index)=>queue.push({day,type:'raw',index}))}return calBusy(lock).replace(/<div class="log-item( receive)?">((?:SEND OUT|RECEIVE RAW) · )([^<]*)<\/div>/g,(_,receive,prefix,text)=>{let item=queue.shift(),status=logState(item.day,item.type,item.index),key=`${item.type}|${item.index}`;return `<div class="log-item${receive||''} ${status.done?'done':''}" data-log="${key}" data-log-day="${Object.keys(w.days).find(k=>w.days[k]===item.day)}">${prefix}${text}${status.check&&state.editing&&!lock?`<button class="log-check" data-log-check="${key}" data-log-day="${Object.keys(w.days).find(k=>w.days[k]===item.day)}">${status.done?'✓':''}</button>`:''}${state.editing&&!lock?`<button class="edit-log" data-log-edit="${key}" data-log-day="${Object.keys(w.days).find(k=>w.days[k]===item.day)}">Edit</button>`:''}</div>`})}
+cal=calWithLogControls;
+
+function activityEnhanced(dayIndex){modal(`<h2>Add activity</h2><p>Plan warehouse work, delivery, raw receipt, or a day note.</p><form id="activity-plus"><div class="form-grid"><div class="field"><label>ACTIVITY TYPE</label><select name="type"><option value="morning">Morning session</option><option value="afternoon">Afternoon session</option><option value="out">Send out order</option><option value="raw">Receive raw</option><option value="note">Planning note</option></select></div><div class="field"><label>WORKLOAD LEVEL</label><input name="load" type="number" min="0" max="100" value="${W().days[dayIndex]?.load||50}"></div><div class="field full"><label>ACTIVITY / DESCRIPTION</label><input name="text" required placeholder="e.g. Expected send out · PO_1044"></div><div class="field"><label><input name="check" type="checkbox" checked> Requires completion tick</label></div></div><div class="modal-actions"><button type="button" class="btn btn-ghost close-modal">Cancel</button><button class="btn btn-primary">Add activity</button></div></form>`);$('#activity-plus').onsubmit=e=>{e.preventDefault();let form=new FormData(e.target),type=form.get('type'),day=W().days[dayIndex]||(W().days[dayIndex]={});day.load=+form.get('load');if(type==='note')day.note=form.get('text');else if(type==='out'||type==='raw'){(day[type]||(day[type]=[])).push(form.get('text'));let status=logState(day,type,day[type].length-1);status.check=!!form.get('check')}else(day[type]||(day[type]=[])).push({text:form.get('text'),check:!!form.get('check')});close();render()}}
+activity=activityEnhanced;
+
+function editLog(dayIndex,key){let [type,index]=key.split('|'),day=W().days[dayIndex],current=day[type][index],status=logState(day,type,index);modal(`<h2>Edit ${type==='out'?'send out order':'raw material receipt'}</h2><form id="edit-log-form"><div class="field"><label>DESCRIPTION</label><input name="text" value="${logText(current).replaceAll('"','&quot;')}" required></div><div class="field"><label><input name="check" type="checkbox" ${status.check?'checked':''}> Requires completion tick</label></div><div class="modal-actions"><button type="button" id="delete-log" class="btn btn-ghost">Delete</button><button class="btn btn-primary">Save changes</button></div></form>`);$('#edit-log-form').onsubmit=e=>{e.preventDefault();let form=new FormData(e.target);day[type][index]=form.get('text');status.check=!!form.get('check');if(!status.check)status.done=false;close();render()};$('#delete-log').onclick=()=>{day[type].splice(index,1);day.logStatus?.[type]?.splice(index,1);close();render()}}
+document.addEventListener('click',e=>{let tick=e.target.closest('[data-log-check]');if(tick&&state.editing){let day=W().days[tick.dataset.logDay],[type,index]=tick.dataset.logCheck.split('|'),status=logState(day,type,+index);status.done=!status.done;render()}let edit=e.target.closest('[data-log-edit]');if(edit&&state.editing)editLog(edit.dataset.logDay,edit.dataset.logEdit)});
+
+function printReport(){let report=document.createElement('section');report.className='pdf-document';report.innerHTML=`<div class="pdf-header"><div><span>LEKORBITES SDN BHD</span><h1>Weekly warehouse forecast</h1><p>${fmt()}</p></div><b>LIVE PLANNING REPORT</b></div><div class="pdf-calendar">${cal(true)}</div>${raw(true)}<footer>Prepared by ${W().forecaster||'LekorBites Operations'} · System developed by Khair</footer>`;let popup=window.open('','lekorbites-weekly-report','width=1440,height=900');if(!popup){toast('Please allow pop-ups to print this report');return}popup.document.open();popup.document.write(`<!doctype html><html><head><base href="${location.href}"><title>LekorBites Weekly Forecast</title><link rel="stylesheet" href="style.css"><style>body{background:#fff!important;padding:22px!important;color:#15382c!important}.pdf-document{position:static!important;left:auto!important;top:auto!important;z-index:auto!important;width:100%!important;box-shadow:none!important}@page{size:A4 landscape;margin:8mm}</style></head><body>${report.outerHTML}</body></html>`);popup.document.close();popup.onload=()=>setTimeout(()=>{popup.focus();popup.print()},350)}
+pdf=printReport;$('#export-btn').onclick=printReport;
+render();
+
+function rawEsc(value=''){return String(value).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}
+function normaliseRaw(){let data=W().raw[state.audience];data.orders.forEach(order=>{order.client??='';order.details??='';order.items=(order.items||[]).map(item=>{if(!Array.isArray(item))return {name:item.name||'',current:item.current||'',toOrder:item.toOrder||'',track:!!item.track,arrived:!!item.arrived};let text=String(item[2]||''),match=text.match(/order\s*(.*)/i);return {name:item[0]||'',current:item[1]||'',toOrder:match?match[1]:(text==='Sufficient'?'':text),track:false,arrived:false}})});return data}
+function rawNeedList(data){let map={};let add=(name,amount,unit)=>{let key=normalizedRawName(name);if(!key||!amount)return;let x=map[key]||(map[key]={name,amount:0,unit});x.amount+=amount;x.unit||=unit};data.orders.forEach(order=>order.items.forEach(item=>{let m=String(item.toOrder).match(/(\d+(?:\.\d+)?)\s*([^\d\s]+)?/);if(m)add(item.name,+m[1],m[2]||'')}));data.buffer.forEach(item=>{let cur=parseFloat(item.current)||0,target=parseFloat(item.target)||0,unit=(String(item.target).match(/[a-zA-Z]+/)||[''])[0];if(target>cur)add(item.sku,target-cur,unit)});return Object.values(map)}
+function rawAdvanced(print=false){let data=normaliseRaw(),need=rawNeedList(data),title=state.audience==='internal'?'Lekor Bites':'Lekor Bites × Yong Mama';let orderCards=data.orders.map((order,index)=>`<article class="raw-card raw-order-card"><div class="raw-card-head"><div><h3>${order.id}</h3><p>${order.client||'Client not specified'}${order.details?` · ${order.details}`:''}</p></div><span class="status ${order.status==='Shortage'?'alert':''}">${order.status?.toUpperCase()||'PENDING'}</span></div><div class="raw-column-head"><span>RAW MATERIAL</span><span>CURRENT</span><span>TO ORDER</span></div>${order.items.map((item,itemIndex)=>`<div class="raw-line raw-material-line ${item.arrived?'done':''}"><b>${item.name}</b><span>${item.current||'—'}</span><span>${item.toOrder||'Sufficient'}</span>${item.track&&state.editing&&!print?`<button class="raw-arrival-tick" data-raw-arrival="${index}|${itemIndex}">${item.arrived?'✓':''}</button>`:''}</div>`).join('')}<div class="raw-note">${order.note||'No remark added.'}</div>${state.editing&&!print?`<div class="raw-card-actions"><button class="edit-mini" data-edit-raw-order="${index}">Edit order</button><button class="delete-mini" data-delete-raw-order="${index}">Delete</button></div>`:''}</article>`).join('')||'<p class="empty-day">No order material records yet.</p>';let bufferCards=data.buffer.map((item,index)=>`<article class="raw-card"><div class="raw-card-head"><div><h3>${item.sku}</h3><p>Current buffer stock</p></div><span class="status ${item.status==='Shortage'?'alert':''}">${item.status||'WATCH'}</span></div><div class="raw-line"><b>Current balance</b><span>${item.current}</span><span>Target ${item.target}</span></div><div class="raw-note">${item.remark||'No remark added.'}</div>${state.editing&&!print?`<div class="raw-card-actions"><button class="edit-mini" data-edit-raw-buffer="${index}">Edit SKU</button><button class="delete-mini" data-delete-raw-buffer="${index}">Delete</button></div>`:''}</article>`).join('')||'<p class="empty-day">No buffer records yet.</p>';return `<section class="raw-report"><div class="raw-report-head"><div><p class="eyebrow">MATERIAL READINESS · ${fmt().toUpperCase()}</p><h2>${title} raw report</h2><p>Order allocation and current buffer-stock readiness in one weekly report.</p></div><div class="raw-total"><span>RAW MATERIAL TYPES TO ORDER</span><b>${need.length} <small>TYPES</small></b><em>Combined order + buffer requirement</em></div></div><div class="raw-columns"><div><div class="raw-label">BASED ON ORDERS</div>${orderCards}</div><div><div class="raw-label">CURRENT BUFFER STOCK</div>${bufferCards}</div></div><section class="order-summary"><div><p class="eyebrow">CONSOLIDATED PROCUREMENT</p><h3>Need to order</h3><p>Combined quantity from order preparation and buffer replenishment.</p></div><div class="order-summary-table">${need.length?need.map(item=>`<div><strong>${item.name}</strong><span>${Number.isInteger(item.amount)?item.amount:item.amount.toFixed(1)} ${item.unit||''}</span></div>`).join(''):'<div><strong>No materials pending</strong><span>All raw materials are sufficient</span></div>'}</div></section>${state.editing&&!print?'<button class="add-raw-inline" id="add-raw">＋ Add custom raw record</button>':''}</section>`}
+raw=rawAdvanced;
+
+function materialRow(item={}){return `<div class="material-entry"><input name="material" value="${rawEsc(item.name)}" placeholder="Raw material e.g. Prawn" required><input name="current" value="${rawEsc(item.current)}" placeholder="Current balance e.g. 50 kg" required><input name="toOrder" value="${rawEsc(item.toOrder)}" placeholder="To order e.g. 20 kg"><label><input type="checkbox" name="track" ${item.track?'checked':''}> Track arrival</label><button type="button" class="remove-material">×</button></div>`}
+function orderForm(order={},editingIndex=null){return `<h2>${editingIndex===null?'Add order raw materials':'Edit order raw materials'}</h2><p>Create one order record, then add every raw material needed for it.</p><form id="raw-order-form"><div class="form-grid"><div class="field"><label>ORDER REFERENCE (PO / DO)</label><input name="id" value="${rawEsc(order.id)}" placeholder="e.g. PO_0987" required></div><div class="field"><label>CLIENT / COMPANY</label><input name="client" value="${rawEsc(order.client)}" placeholder="e.g. Neo Foods"></div><div class="field full"><label>ORDER DETAILS</label><input name="details" value="${rawEsc(order.details)}" placeholder="e.g. 200 cartons · Delivery 25 Sep"></div><div class="field full"><label>REMARK</label><textarea name="note" placeholder="Raw material planning note">${rawEsc(order.note)}</textarea></div></div><div class="material-form-head"><strong>Raw materials for this order</strong><button type="button" class="btn btn-ghost" id="add-material-row">＋ Add material</button></div><div class="material-entry-head"><span>RAW MATERIAL</span><span>CURRENT BALANCE</span><span>TO ORDER</span><span>STATUS</span></div><div id="material-rows">${(order.items?.length?order.items:[{}]).map(materialRow).join('')}</div><div class="modal-actions">${editingIndex!==null?`<button type="button" id="delete-order-record" class="btn btn-ghost">Delete order</button>`:''}<button class="btn btn-primary">Save order materials</button></div></form>`}
+function collectMaterials(form){let names=[...form.querySelectorAll('[name="material"]')],currents=[...form.querySelectorAll('[name="current"]')],orders=[...form.querySelectorAll('[name="toOrder"]')],tracks=[...form.querySelectorAll('[name="track"]')];return names.map((input,index)=>({name:input.value.trim(),current:currents[index].value.trim(),toOrder:orders[index].value.trim(),track:tracks[index].checked,arrived:false})).filter(item=>item.name)}
+function openOrderForm(index=null){let data=normaliseRaw(),order=index===null?{}:data.orders[index];modal(orderForm(order,index));let rows=$('#material-rows');$('#add-material-row').onclick=()=>rows.insertAdjacentHTML('beforeend',materialRow());rows.addEventListener('click',e=>{if(e.target.matches('.remove-material')&&rows.children.length>1)e.target.closest('.material-entry').remove()});$('#raw-order-form').onsubmit=e=>{e.preventDefault();let form=e.target,values=new FormData(form),old=index===null?null:data.orders[index],items=collectMaterials(form);let record={id:values.get('id'),client:values.get('client'),details:values.get('details'),note:values.get('note'),status:items.some(item=>item.toOrder)?'Shortage':'Ready',items:items};if(old)record.items.forEach((item,i)=>{item.arrived=old.items[i]?.arrived||false});if(index===null)data.orders.push(record);else data.orders[index]=record;close();render()};if(index!==null)$('#delete-order-record').onclick=()=>{data.orders.splice(index,1);close();render()}}
+function addRawAdvanced(){modal(`<h2>Add raw-material record</h2><p>Choose whether this record is for a customer order or an ongoing buffer SKU.</p><div class="raw-choice"><button class="btn btn-primary" id="choose-order-raw">Order raw materials</button><button class="btn btn-ghost" id="choose-buffer-raw">Buffer stock SKU</button></div>`);$('#choose-order-raw').onclick=()=>openOrderForm();$('#choose-buffer-raw').onclick=()=>openBufferForm()}
+function openBufferForm(index=null){let data=normaliseRaw(),item=index===null?{}:data.buffer[index];modal(`<h2>${index===null?'Add buffer stock SKU':'Edit buffer stock SKU'}</h2><form id="buffer-form"><div class="form-grid"><div class="field"><label>RAW MATERIAL / SKU</label><input name="sku" value="${rawEsc(item.sku)}" required></div><div class="field"><label>CURRENT BALANCE</label><input name="current" value="${rawEsc(item.current)}" placeholder="e.g. 40 kg" required></div><div class="field"><label>TARGET BUFFER</label><input name="target" value="${rawEsc(item.target)}" placeholder="e.g. 160 kg" required></div><div class="field"><label>STATUS</label><select name="status"><option ${item.status==='Shortage'?'selected':''}>Shortage</option><option ${item.status==='Watch'?'selected':''}>Watch</option><option ${item.status==='Ready'?'selected':''}>Ready</option></select></div><div class="field full"><label>REMARK</label><textarea name="remark">${rawEsc(item.remark)}</textarea></div></div><div class="modal-actions">${index!==null?'<button type="button" id="delete-buffer-record" class="btn btn-ghost">Delete SKU</button>':''}<button class="btn btn-primary">Save SKU</button></div></form>`);$('#buffer-form').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target),record={sku:f.get('sku'),current:f.get('current'),target:f.get('target'),status:f.get('status'),remark:f.get('remark')};if(index===null)data.buffer.push(record);else data.buffer[index]=record;close();render()};if(index!==null)$('#delete-buffer-record').onclick=()=>{data.buffer.splice(index,1);close();render()}}
+addRaw=addRawAdvanced;
+document.addEventListener('click',e=>{let arrival=e.target.closest('[data-raw-arrival]');if(arrival&&state.editing){let[o,i]=arrival.dataset.rawArrival.split('|'),item=normaliseRaw().orders[o].items[i];item.arrived=!item.arrived;render()}let editOrder=e.target.closest('[data-edit-raw-order]');if(editOrder&&state.editing)openOrderForm(+editOrder.dataset.editRawOrder);let deleteOrder=e.target.closest('[data-delete-raw-order]');if(deleteOrder&&state.editing){normaliseRaw().orders.splice(+deleteOrder.dataset.deleteRawOrder,1);render()}let editBuffer=e.target.closest('[data-edit-raw-buffer]');if(editBuffer&&state.editing)openBufferForm(+editBuffer.dataset.editRawBuffer);let deleteBuffer=e.target.closest('[data-delete-raw-buffer]');if(deleteBuffer&&state.editing){normaliseRaw().buffer.splice(+deleteBuffer.dataset.deleteRawBuffer,1);render()}});
+render();
+
+
+</script>
+<script>
+  /* Delivery wording + advanced raw-material readiness workflow */
+  const calendarBeforeRawReadiness = cal;
+  cal = function (locked = false) {
+    return calendarBeforeRawReadiness(locked).replaceAll('SEND OUT ·', 'EXPECTED SEND OUT ·').replaceAll('RECEIVE RAW ·', 'EXPECTED RECEIVE RAW ·');
+  };
+
+  const rawRendererBeforeReadiness = raw;
+  const safeRawText = (value = '') => String(value)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+
+  function isEnoughText(value) {
+    return /^(sufficient|enough|ready)$/i.test(String(value || '').trim());
+  }
+
+  function makeMaterial(value = {}) {
+    if (Array.isArray(value)) {
+      const request = String(value[2] || '');
+      return {
+        name: value[0] || '', current: value[1] || '',
+        toOrder: isEnoughText(request) ? '' : request.replace(/^order\s*/i, ''),
+        enough: isEnoughText(request), track: false, arrived: false
+      };
+    }
+    const request = value.toOrder ?? value.request ?? '';
+    return {
+      name: value.name || value.sku || '', current: value.current || '',
+      toOrder: isEnoughText(request) ? '' : request,
+      enough: value.enough === true || (value.enough === undefined && !request),
+      track: Boolean(value.track), arrived: Boolean(value.arrived)
+    };
+  }
+
+  function rawDataReady() {
+    const data = W().raw[state.audience];
+    data.orders = data.orders || [];
+    data.buffer = data.buffer || [];
+    data.orders.forEach(order => {
+      order.client ??= '';
+      order.details ??= '';
+      order.note ??= '';
+      if (!order.materials) order.materials = (order.items || []).map(makeMaterial);
+      order.materials = order.materials.map(makeMaterial);
+    });
+    data.buffer.forEach(record => {
+      record.note ??= record.remark || '';
+      if (!record.materials) {
+        const current = parseFloat(record.current) || 0;
+        const target = parseFloat(record.target) || 0;
+        const unit = (String(record.target || '').match(/[a-zA-Z]+/) || [''])[0];
+        record.materials = [makeMaterial({
+          name: record.sku || '', current: record.current || '',
+          toOrder: target > current ? `${target - current} ${unit}`.trim() : '',
+          enough: target <= current
+        })];
+      }
+      record.materials = record.materials.map(makeMaterial);
+    });
+    return data;
+  }
+
+  function parseMaterialAmount(value) {
+    const match = String(value || '').trim().match(/(\d+(?:\.\d+)?)\s*(.*)/);
+    return match ? { amount: Number(match[1]), unit: match[2].trim() } : null;
+  }
+
+  function consolidatedMaterials(data) {
+    const combined = {};
+    const include = material => {
+      if (material.enough || !material.toOrder) return;
+      const parsed = parseMaterialAmount(material.toOrder);
+      if (!parsed || !material.name) return;
+      const key = `${material.name.trim().toLowerCase()}|${parsed.unit.toLowerCase()}`;
+      combined[key] ||= { name: material.name.trim(), amount: 0, unit: parsed.unit };
+      combined[key].amount += parsed.amount;
+    };
+    data.orders.forEach(record => record.materials.forEach(include));
+    data.buffer.forEach(record => record.materials.forEach(include));
+    return Object.values(combined);
+  }
+
+  function materialPreview(material, section, recordIndex, materialIndex, print) {
+    const arrival = material.track && state.editing && !print
+      ? `<button class="raw-arrival-tick" data-material-arrival="${section}|${recordIndex}|${materialIndex}" title="Mark raw material arrived">${material.arrived ? '✓' : ''}</button>` : '';
+    if (material.enough) return `<div class="raw-line raw-material-line enough-row"><b>${safeRawText(material.name)}</b><span class="enough-pill">ENOUGH ✓</span><span>—</span><span class="not-required">Not required</span></div>`;
+    return `<div class="raw-line raw-material-line ${material.arrived ? 'done' : ''}"><b>${safeRawText(material.name)}</b><span class="need-pill">NEED ORDER</span><span>${safeRawText(material.current || '—')}</span><strong class="to-order-value">${safeRawText(material.toOrder || 'To confirm')}</strong>${arrival}</div>`;
+  }
+
+  function materialTable(record, section, recordIndex, print) {
+    return `<div class="raw-column-head raw-readiness-head"><span>RAW MATERIAL</span><span>STATUS</span><span>CURRENT BALANCE</span><span>TO ORDER</span></div>${record.materials.map((material, index) => materialPreview(material, section, recordIndex, index, print)).join('')}`;
+  }
+
+  function rawReadinessReport(print = false) {
+    const data = rawDataReady();
+    const need = consolidatedMaterials(data);
+    const title = state.audience === 'internal' ? 'Lekor Bites' : 'Lekor Bites × Yong Mama';
+    const orderCards = data.orders.map((order, index) => `<article class="raw-card raw-order-card"><div class="raw-card-head"><div><h3>${safeRawText(order.id || 'Untitled order')}</h3><p class="raw-client">${order.client ? `<strong>${safeRawText(order.client)}</strong>` : '<strong>Client not specified</strong>'}${order.details ? ` · ${safeRawText(order.details)}` : ''}</p></div></div>${materialTable(order, 'orders', index, print)}<div class="raw-note">${safeRawText(order.note || 'No remark added.')}</div>${state.editing && !print ? `<div class="raw-card-actions"><button class="edit-mini" data-edit-order-readiness="${index}">Edit order</button><button class="delete-mini" data-delete-order-readiness="${index}">Delete</button></div>` : ''}</article>`).join('') || '<p class="empty-day">No order material records yet.</p>';
+    const bufferCards = data.buffer.map((buffer, index) => `<article class="raw-card raw-buffer-card"><div class="raw-card-head"><div><h3>${safeRawText(buffer.sku || 'Untitled buffer SKU')}</h3><p>Materials required to maintain this buffer SKU</p></div></div>${materialTable(buffer, 'buffer', index, print)}<div class="raw-note">${safeRawText(buffer.note || 'No remark added.')}</div>${state.editing && !print ? `<div class="raw-card-actions"><button class="edit-mini" data-edit-buffer-readiness="${index}">Edit buffer</button><button class="delete-mini" data-delete-buffer-readiness="${index}">Delete</button></div>` : ''}</article>`).join('') || '<p class="empty-day">No buffer records yet.</p>';
+    return `<section class="raw-report"><div class="raw-report-head"><div><p class="eyebrow">MATERIAL READINESS · ${fmt().toUpperCase()}</p><h2>${title} raw report</h2><p>Order preparation and buffer replenishment in one weekly report.</p></div><div class="raw-total"><span>RAW MATERIAL TYPES TO ORDER</span><b>${need.length} <small>TYPES</small></b><em>Combined order + buffer requirement</em></div></div><div class="raw-columns"><div><div class="raw-label">BASED ON ORDERS</div>${orderCards}</div><div><div class="raw-label">CURRENT BUFFER STOCK</div>${bufferCards}</div></div><section class="order-summary"><div><p class="eyebrow">CONSOLIDATED PROCUREMENT</p><h3>Need to order</h3><p>Combined quantity from every order and buffer requirement.</p></div><div class="order-summary-table">${need.length ? need.map(item => `<div><strong>${safeRawText(item.name)}</strong><span>${Number.isInteger(item.amount) ? item.amount : item.amount.toFixed(1)} ${safeRawText(item.unit)}</span></div>`).join('') : '<div><strong>No materials pending</strong><span>All raw materials are sufficient</span></div>'}</div></section>${state.editing && !print ? '<button class="add-raw-inline" id="add-raw">＋ Add raw record</button>' : ''}</section>`;
+  }
+
+  raw = rawReadinessReport;
+
+  function materialEditorRow(material = {}) {
+    const ready = makeMaterial(material);
+    return `<div class="material-entry-v2 ${ready.enough ? 'is-enough' : ''}" data-material-editor><input class="material-name" value="${safeRawText(ready.name)}" placeholder="Raw material e.g. Prawn" required><select class="material-availability"><option value="enough" ${ready.enough ? 'selected' : ''}>Enough ✓</option><option value="short" ${!ready.enough ? 'selected' : ''}>Need to order</option></select><div class="shortage-input"><input class="material-current" value="${safeRawText(ready.current)}" placeholder="Current e.g. 50 kg"></div><div class="shortage-input"><input class="material-order" value="${safeRawText(ready.toOrder)}" placeholder="To order e.g. 20 kg"></div><label class="shortage-input material-track-label"><input class="material-track" type="checkbox" ${ready.track ? 'checked' : ''}> Track arrival</label><button type="button" class="remove-material-v2">×</button></div>`;
+  }
+
+  function updateEditorMaterialRow(row) {
+    const enough = row.querySelector('.material-availability').value === 'enough';
+    row.classList.toggle('is-enough', enough);
+    row.querySelectorAll('.shortage-input input:not([type="checkbox"])').forEach(input => input.required = !enough);
+  }
+
+  function collectEditorMaterials(root, previous = []) {
+    return [...root.querySelectorAll('[data-material-editor]')].map(row => {
+      const name = row.querySelector('.material-name').value.trim();
+      const enough = row.querySelector('.material-availability').value === 'enough';
+      const old = previous.find(item => item.name.toLowerCase() === name.toLowerCase());
+      return { name, enough, current: enough ? '' : row.querySelector('.material-current').value.trim(), toOrder: enough ? '' : row.querySelector('.material-order').value.trim(), track: !enough && row.querySelector('.material-track').checked, arrived: !enough && Boolean(old?.arrived) };
+    }).filter(item => item.name);
+  }
+
+  function readinessForm(type, record = {}, index = null) {
+    const isOrder = type === 'orders';
+    const materials = record.materials?.length ? record.materials : [{}];
+    return `<h2>${index === null ? 'Add' : 'Edit'} ${isOrder ? 'order raw materials' : 'buffer raw materials'}</h2><p>${isOrder ? 'Add an order reference, client details, then every material needed for the order.' : 'Set a buffer SKU, then add every raw material needed to prepare or restore it.'}</p><form id="readiness-form"><div class="form-grid">${isOrder ? `<div class="field"><label>ORDER REFERENCE (PO / DO)</label><input name="id" value="${safeRawText(record.id)}" placeholder="e.g. PO_0987" required></div><div class="field"><label>CLIENT / COMPANY</label><input name="client" value="${safeRawText(record.client)}" placeholder="e.g. Neo Foods"></div><div class="field full"><label>ORDER DETAILS</label><input name="details" value="${safeRawText(record.details)}" placeholder="e.g. 200 cartons · Delivery 25 Sep"></div>` : `<div class="field full"><label>BUFFER SKU / PRODUCT</label><input name="sku" value="${safeRawText(record.sku)}" placeholder="e.g. Prawn Muruku" required></div>`}<div class="field full"><label>REMARK</label><textarea name="note" placeholder="Raw material planning note">${safeRawText(record.note)}</textarea></div></div><div class="material-form-head"><strong>Raw materials</strong><button type="button" class="btn btn-ghost" id="add-readiness-material">＋ Add material</button></div><div class="material-editor-head"><span>RAW MATERIAL</span><span>AVAILABILITY</span><span>CURRENT BALANCE</span><span>TO ORDER</span><span>ARRIVAL</span></div><div id="readiness-materials">${materials.map(materialEditorRow).join('')}</div><div class="modal-actions">${index !== null ? `<button type="button" id="delete-readiness-record" class="btn btn-ghost">Delete ${isOrder ? 'order' : 'buffer'}</button>` : ''}<button class="btn btn-primary">Save raw materials</button></div></form>`;
+  }
+
+  function openReadinessForm(type, index = null) {
+    const data = rawDataReady();
+    const list = data[type];
+    const record = index === null ? {} : list[index];
+    modal(readinessForm(type, record, index));
+    const root = $('#readiness-materials');
+    root.querySelectorAll('[data-material-editor]').forEach(updateEditorMaterialRow);
+    $('#add-readiness-material').onclick = () => { root.insertAdjacentHTML('beforeend', materialEditorRow()); updateEditorMaterialRow(root.lastElementChild); };
+    root.addEventListener('change', event => { const row = event.target.closest('[data-material-editor]'); if (row && event.target.matches('.material-availability')) updateEditorMaterialRow(row); });
+    root.addEventListener('click', event => { if (event.target.matches('.remove-material-v2') && root.children.length > 1) event.target.closest('[data-material-editor]').remove(); });
+    $('#readiness-form').onsubmit = event => { event.preventDefault(); const form = new FormData(event.target), materials = collectEditorMaterials(root, record.materials || []); const next = type === 'orders' ? { id: form.get('id'), client: form.get('client'), details: form.get('details'), note: form.get('note'), materials } : { sku: form.get('sku'), note: form.get('note'), materials }; if (index === null) list.push(next); else list[index] = next; close(); render(); };
+    if (index !== null) $('#delete-readiness-record').onclick = () => { list.splice(index, 1); close(); render(); };
+  }
+
+  function addRawReadiness() {
+    modal(`<h2>Add raw-material record</h2><p>Choose whether these materials are needed for a customer order or to prepare a buffer SKU.</p><div class="raw-choice"><button class="btn btn-primary" id="add-order-readiness">Order raw materials</button><button class="btn btn-ghost" id="add-buffer-readiness">Buffer raw materials</button></div>`);
+    $('#add-order-readiness').onclick = () => openReadinessForm('orders');
+    $('#add-buffer-readiness').onclick = () => openReadinessForm('buffer');
+  }
+
+  addRaw = addRawReadiness;
+  document.addEventListener('click', event => {
+    const arrival = event.target.closest('[data-material-arrival]');
+    if (arrival && state.editing) { const [type, recordIndex, materialIndex] = arrival.dataset.materialArrival.split('|'); const material = rawDataReady()[type][recordIndex].materials[materialIndex]; material.arrived = !material.arrived; render(); }
+    const editOrder = event.target.closest('[data-edit-order-readiness]');
+    if (editOrder && state.editing) openReadinessForm('orders', Number(editOrder.dataset.editOrderReadiness));
+    const deleteOrder = event.target.closest('[data-delete-order-readiness]');
+    if (deleteOrder && state.editing) { rawDataReady().orders.splice(Number(deleteOrder.dataset.deleteOrderReadiness), 1); render(); }
+    const editBuffer = event.target.closest('[data-edit-buffer-readiness]');
+    if (editBuffer && state.editing) openReadinessForm('buffer', Number(editBuffer.dataset.editBufferReadiness));
+    const deleteBuffer = event.target.closest('[data-delete-buffer-readiness]');
+    if (deleteBuffer && state.editing) { rawDataReady().buffer.splice(Number(deleteBuffer.dataset.deleteBufferReadiness), 1); render(); }
+  });
+  render();
+</script>
+<script>
+  /* Partner forecast: generated from Internal, with partner-only planning overrides. */
+  const calendarBeforePartnerForecast = cal;
+
+  function partnerStore() {
+    const plan = W();
+    plan.partnerForecast ||= { days: {} };
+    plan.partnerForecast.days ||= {};
+    return plan.partnerForecast.days;
+  }
+
+  function internalDailyTasks(dayIndex) {
+    const day = W().days[dayIndex] || {};
+    return [
+      ...(day.morning || []).map((task, index) => ({ text: task.text, session: 'morning', check: Boolean(task.check), done: Boolean(task.done), source: { type: 'morning', index } })),
+      ...(day.afternoon || []).map((task, index) => ({ text: task.text, session: 'afternoon', check: Boolean(task.check), done: Boolean(task.done), source: { type: 'afternoon', index } }))
+    ];
+  }
+
+  function internalDailyLogs(dayIndex, type) {
+    const day = W().days[dayIndex] || {};
+    return (day[type] || []).map((entry, index) => {
+      const status = logState(day, type, index);
+      return { text: safeRawText(logText(entry)), check: Boolean(status.check), done: Boolean(status.done), source: { type, index } };
+    });
+  }
+
+  function partnerDay(dayIndex) {
+    const overrides = partnerStore();
+    const internalDay = W().days[dayIndex] || {};
+    const override = overrides[dayIndex];
+    if (!override) return { tasks: internalDailyTasks(dayIndex), out: internalDailyLogs(dayIndex, 'out'), raw: internalDailyLogs(dayIndex, 'raw'), load: internalDay.load || 0, note: internalDay.note || '', inherited: true };
+    override.tasks ||= [];
+    override.out ||= internalDailyLogs(dayIndex, 'out');
+    override.raw ||= internalDailyLogs(dayIndex, 'raw');
+    override.tasks.forEach(task => { if (task.source) { const source = W().days[dayIndex]?.[task.source.type]?.[task.source.index]; if (source) { task.done = Boolean(source.done); task.check = Boolean(source.check); } } });
+    ['out', 'raw'].forEach(type => override[type].forEach(entry => { if (entry.source) { const status = logState(W().days[dayIndex] || {}, entry.source.type, entry.source.index); entry.done = Boolean(status.done); entry.check = Boolean(status.check); } }));
+    return { tasks: override.tasks, out: override.out, raw: override.raw, load: override.load ?? internalDay.load ?? 0, note: override.note ?? internalDay.note ?? '', inherited: false };
+  }
+
+  function createPartnerOverride(dayIndex) {
+    const overrides = partnerStore();
+    if (!overrides[dayIndex]) {
+      const internalDay = W().days[dayIndex] || {};
+      overrides[dayIndex] = { load: internalDay.load || 0, note: internalDay.note || '', tasks: internalDailyTasks(dayIndex).map(task => ({ ...task })), out: internalDailyLogs(dayIndex, 'out').map(entry => ({ ...entry })), raw: internalDailyLogs(dayIndex, 'raw').map(entry => ({ ...entry })) };
+    }
+    return overrides[dayIndex];
+  }
+
+  function partnerTaskCard(task, dayIndex, taskIndex, locked) {
+    return `<div class="task partner-task ${task.done ? 'done' : ''}" data-partner-task="${dayIndex}|${taskIndex}">${safeRawText(task.text)}${task.check && state.editing && !locked ? `<span class="checkbox" data-partner-check="${dayIndex}|${taskIndex}">${task.done ? '✓' : ''}</span>` : ''}${state.editing && !locked ? '<button class="edit-mini" data-partner-edit> Edit</button>' : ''}</div>`;
+  }
+
+  function partnerLogCard(entry, type, dayIndex, entryIndex, locked) {
+    const heading = type === 'out' ? 'EXPECTED SEND OUT' : 'EXPECTED RECEIVE RAW';
+    return `<div class="log-item ${type === 'raw' ? 'receive' : ''} ${entry.done ? 'done' : ''}" data-partner-log="${type}|${dayIndex}|${entryIndex}">${heading} · ${safeRawText(entry.text)}${entry.check && state.editing && !locked ? `<button class="log-check" data-partner-log-check="${type}|${dayIndex}|${entryIndex}">${entry.done ? '✓' : ''}</button>` : ''}${state.editing && !locked ? '<button class="edit-log" data-partner-log-edit>Edit</button>' : ''}</div>`;
+  }
+
+  function partnerCalendar(locked = false) {
+    let html = '';
+    for (let index = 0; index < 6; index++) {
+      const view = partnerDay(index), date = add(index);
+      html += `<article class="day-card partner-day-card"><div class="day-head"><div><span class="day-name">${days[index]}</span><span class="day-date">${date.toLocaleDateString('en-GB',{day:'numeric',month:'short'})}</span></div><span class="day-load"><b>${view.load || 0}%</b><small>${busyLabel(view.load || 0)}</small></span></div><div class="battery"><span style="width:${view.load || 0}%"></span></div><div class="shift"><div class="shift-title">DAILY FOCUS</div>${view.tasks.length ? view.tasks.map((task, taskIndex) => partnerTaskCard(task, index, taskIndex, locked)).join('') : '<div class="empty-day">No partner activity planned</div>'}</div><div class="logistics">${view.out.map((entry, entryIndex) => partnerLogCard(entry, 'out', index, entryIndex, locked)).join('')}${view.raw.map((entry, entryIndex) => partnerLogCard(entry, 'raw', index, entryIndex, locked)).join('')}</div>${view.note ? `<div class="shift"><span class="note-pill">NOTE · ${safeRawText(view.note)}</span></div>` : ''}${state.editing && !locked ? `<div class="partner-day-actions"><button class="add-day" data-partner-add="${index}">＋ Add partner activity</button><button class="partner-sync-day" data-partner-sync="${index}">↻ Sync with Internal</button></div>` : ''}</article>`;
+    }
+    return html;
+  }
+
+  cal = function (locked = false) {
+    return state.audience === 'partner' ? partnerCalendar(locked) : calendarBeforePartnerForecast(locked);
+  };
+
+  function partnerActivity(dayIndex) {
+    const day = partnerDay(dayIndex);
+    modal(`<h2>Add partner forecast item</h2><p>This entry appears only in Lekor Bites × Yong Mama. Internal planning will not change.</p><form id="partner-task-form"><div class="form-grid"><div class="field"><label>ITEM TYPE</label><select name="type"><option value="tasks">Activity / description</option><option value="out">Expected send out</option><option value="raw">Expected receive raw</option><option value="note">Planning note</option></select></div><div class="field"><label>WORKLOAD LEVEL (%)</label><input name="load" type="number" min="0" max="100" value="${day.load || 0}" required></div><div class="field full"><label>ACTIVITY / DESCRIPTION</label><input name="text" placeholder="e.g. Prepare co-brand order PO_0987" required></div><div class="field"><label><input name="check" type="checkbox" checked> Requires completion tick</label></div></div><div class="modal-actions"><button type="button" class="btn btn-ghost close-modal">Cancel</button><button class="btn btn-primary">Add item</button></div></form>`);
+    $('#partner-task-form').onsubmit = event => { event.preventDefault(); const form = new FormData(event.target), override = createPartnerOverride(dayIndex), type = form.get('type'); override.load = Math.min(100, Math.max(0, Number(form.get('load')) || 0)); if(type === 'note') override.note = form.get('text'); else override[type].push({ text: form.get('text'), check: Boolean(form.get('check')), done: false }); close(); render(); };
+  }
+
+  function partnerTaskEditor(dayIndex, taskIndex) {
+    const task = createPartnerOverride(dayIndex).tasks[taskIndex];
+    const day = partnerDay(dayIndex);
+    modal(`<h2>Edit partner activity</h2><p>This change is only for Lekor Bites × Yong Mama.</p><form id="partner-edit-form"><div class="form-grid"><div class="field"><label>WORKLOAD LEVEL (%)</label><input name="load" type="number" min="0" max="100" value="${day.load || 0}" required></div><div class="field full"><label>ACTIVITY / DESCRIPTION</label><input name="text" value="${safeRawText(task.text)}" required></div><div class="field"><label><input name="check" type="checkbox" ${task.check ? 'checked' : ''}> Requires completion tick</label></div></div><div class="modal-actions"><button type="button" class="btn btn-ghost" id="delete-partner-task">Delete activity</button><button class="btn btn-primary">Save changes</button></div></form>`);
+    $('#partner-edit-form').onsubmit = event => { event.preventDefault(); const form = new FormData(event.target), override = createPartnerOverride(dayIndex); task.text = form.get('text'); task.check = Boolean(form.get('check')); override.load = Math.min(100, Math.max(0, Number(form.get('load')) || 0)); if (!task.check) task.done = false; close(); render(); };
+    $('#delete-partner-task').onclick = () => { createPartnerOverride(dayIndex).tasks.splice(taskIndex, 1); close(); render(); };
+  }
+
+  function partnerLogEditor(type, dayIndex, entryIndex) {
+    const entry = createPartnerOverride(dayIndex)[type][entryIndex];
+    const day = partnerDay(dayIndex), heading = type === 'out' ? 'Expected send out' : 'Expected receive raw';
+    modal(`<h2>Edit ${heading}</h2><p>This change is only for Lekor Bites × Yong Mama.</p><form id="partner-log-form"><div class="form-grid"><div class="field"><label>WORKLOAD LEVEL (%)</label><input name="load" type="number" min="0" max="100" value="${day.load || 0}" required></div><div class="field full"><label>DESCRIPTION</label><input name="text" value="${safeRawText(entry.text)}" required></div><div class="field"><label><input name="check" type="checkbox" ${entry.check ? 'checked' : ''}> Requires completion tick</label></div></div><div class="modal-actions"><button type="button" class="btn btn-ghost" id="delete-partner-log">Delete item</button><button class="btn btn-primary">Save changes</button></div></form>`);
+    $('#partner-log-form').onsubmit = event => { event.preventDefault(); const form = new FormData(event.target), override = createPartnerOverride(dayIndex); entry.text = form.get('text'); entry.check = Boolean(form.get('check')); override.load = Math.min(100, Math.max(0, Number(form.get('load')) || 0)); if (!entry.check) entry.done = false; close(); render(); };
+    $('#delete-partner-log').onclick = () => { createPartnerOverride(dayIndex)[type].splice(entryIndex, 1); close(); render(); };
+  }
+
+  const activityBeforePartnerForecast = activity;
+  activity = function (dayIndex) { return state.audience === 'partner' ? partnerActivity(dayIndex) : activityBeforePartnerForecast(dayIndex); };
+
+  const resetWeekBeforePartnerForecast = $('#reset-week').onclick;
+  $('#reset-week').onclick = () => {
+    if (state.audience === 'partner' && state.editing) { W().partnerForecast = { days: {} }; render(); toast('Partner forecast reset to Internal plan'); return; }
+    return resetWeekBeforePartnerForecast?.();
+  };
+
+  document.addEventListener('click', event => {
+    const check = event.target.closest('[data-partner-check]');
+    if (check && state.editing) {
+      const [dayIndex, taskIndex] = check.dataset.partnerCheck.split('|');
+      const view = partnerDay(dayIndex), task = view.tasks[taskIndex];
+      task.done = !task.done;
+      if (task.source) { const linked = W().days[dayIndex]?.[task.source.type]?.[task.source.index]; if (linked) linked.done = task.done; }
+      else createPartnerOverride(dayIndex).tasks[taskIndex].done = task.done;
+      render();
+    }
+    const edit = event.target.closest('[data-partner-edit]');
+    if (edit && state.editing) { const [dayIndex, taskIndex] = edit.closest('[data-partner-task]').dataset.partnerTask.split('|'); partnerTaskEditor(dayIndex, taskIndex); }
+    const logCheck = event.target.closest('[data-partner-log-check]');
+    if (logCheck && state.editing) { const [type, dayIndex, entryIndex] = logCheck.dataset.partnerLogCheck.split('|'); const view = partnerDay(dayIndex), entry = view[type][entryIndex]; entry.done = !entry.done; if (entry.source) { const status = logState(W().days[dayIndex] || {}, entry.source.type, entry.source.index); status.done = entry.done; } else createPartnerOverride(dayIndex)[type][entryIndex].done = entry.done; render(); }
+    const logEdit = event.target.closest('[data-partner-log-edit]');
+    if (logEdit && state.editing) { const [type, dayIndex, entryIndex] = logEdit.closest('[data-partner-log]').dataset.partnerLog.split('|'); partnerLogEditor(type, dayIndex, entryIndex); }
+    const add = event.target.closest('[data-partner-add]');
+    if (add && state.editing) partnerActivity(add.dataset.partnerAdd);
+    const sync = event.target.closest('[data-partner-sync]');
+    if (sync && state.editing) { delete partnerStore()[sync.dataset.partnerSync]; render(); toast('Partner day restored from Internal'); }
+  });
+  render();
+</script>
+<style>
+  .partner-day-card .shift-title { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+  .inherited-label, .partner-label { padding: 3px 5px; border-radius: 4px; font: 7px 'DM Mono', monospace; letter-spacing: .2px; white-space: nowrap; }
+  .inherited-label { color: #52776a; background: #eff7f2; }
+  .partner-label { color: #7456c7; background: #f1edff; }
+  .partner-reset-day { margin: 0 0 10px 12px; border: 0; background: transparent; color: #789187; font: 9px 'DM Mono', monospace; cursor: pointer; }
+  .partner-reset-day:hover { color: #bd5a54; }
+  .partner-task .edit-mini { right: 5px; bottom: 4px; }
+  .partner-day-actions { display: flex; flex-wrap: wrap; gap: 4px; padding: 2px 10px 11px; align-items: center; }
+  .partner-day-actions .add-day { padding: 5px 2px; margin-right: auto; }
+  .partner-sync-day { border: 1px solid #d5e9df; background: #fff; color: #416b5b; border-radius: 5px; padding: 5px 6px; font: 8px 'DM Mono', monospace; cursor: pointer; }
+  .partner-sync-day { color: #087d51; background: #effaf4; border-color: #bee8d1; }
+  .partner-sync-day:hover { filter: brightness(.97); transform: translateY(-1px); }
+</style>
+<script>
+  /* Cloud sync: immediately save edits and clearly report Firebase access problems. */
+  let lekorCloudReady = false;
+  let lekorApplyingRemote = false;
+  let lekorSavedSnapshot = '';
+  let lekorAutosaveTimer = null;
+  const renderBeforeLiveSync = render;
+
+  function setCloudStatus(message, mode = 'ok') {
+    const node = $('#sync-status');
+    if (!node) return;
+    node.textContent = message;
+    node.closest('.side-footer')?.classList.toggle('sync-error', mode === 'error');
+  }
+
+  function liveSnapshot() {
+    return JSON.stringify(state.data);
+  }
+
+  save = function () {
+    localStorage.setItem('lb-forecast-v2', liveSnapshot());
+    if (!db) { setCloudStatus('CLOUD NOT CONNECTED', 'error'); return Promise.resolve(); }
+    const snapshot = liveSnapshot();
+    setCloudStatus('SYNCING LIVE…');
+    return db.ref('lekorbites-forecast').set(state.data)
+      .then(() => { lekorSavedSnapshot = snapshot; setCloudStatus('LIVE SYNCED'); })
+      .catch(error => {
+        console.error('Firebase live sync failed:', error);
+        setCloudStatus('CLOUD SYNC BLOCKED', 'error');
+        toast('Firebase access is blocked — check Realtime Database Rules');
+      });
+  };
+
+  function queueLiveSave() {
+    if (!lekorCloudReady || lekorApplyingRemote) return;
+    const snapshot = liveSnapshot();
+    if (snapshot === lekorSavedSnapshot) return;
+    clearTimeout(lekorAutosaveTimer);
+    lekorAutosaveTimer = setTimeout(() => save(), 350);
+  }
+
+  render = function () {
+    renderBeforeLiveSync();
+    queueLiveSave();
+  };
+
+  if (db) {
+    db.ref('lekorbites-forecast').on('value', snapshot => {
+      lekorCloudReady = true;
+      if (snapshot.val()) {
+        lekorApplyingRemote = true;
+        state.data = snapshot.val();
+        lekorSavedSnapshot = liveSnapshot();
+        renderBeforeLiveSync();
+        lekorApplyingRemote = false;
+        setCloudStatus('LIVE SYNCED');
+      } else {
+        lekorSavedSnapshot = '';
+        save();
+      }
+    }, error => {
+      console.error('Firebase listener failed:', error);
+      setCloudStatus('CLOUD SYNC BLOCKED', 'error');
+    });
+  }
+  render();
+</script>
+<style>
+  .side-footer.sync-error { background: #fff0ef !important; color: #ba554f !important; }
+  .side-footer.sync-error .pulse { background: #d75b55; box-shadow: 0 0 9px #d75b55; }
+</style>
+<script>
+  /* Existing planning notes can be edited directly while Edit Forecast is active. */
+  function editPlanningNote(dayIndex) {
+    const isPartner = state.audience === 'partner';
+    const target = isPartner ? createPartnerOverride(dayIndex) : (W().days[dayIndex] ||= {});
+    const note = target.note || '';
+    modal(`<h2>Edit planning note</h2><p>${isPartner ? 'This note is only for Lekor Bites × Yong Mama.' : 'This note is for the Internal forecast.'}</p><form id="planning-note-form"><div class="field"><label>PLANNING NOTE</label><textarea name="note" placeholder="Add an operational note">${safeRawText(note)}</textarea></div><div class="modal-actions"><button type="button" class="btn btn-ghost" id="delete-planning-note">Delete note</button><button class="btn btn-primary">Save note</button></div></form>`);
+    $('#planning-note-form').onsubmit = event => { event.preventDefault(); target.note = new FormData(event.target).get('note').trim(); close(); render(); };
+    $('#delete-planning-note').onclick = () => { target.note = ''; close(); render(); };
+  }
+
+  document.addEventListener('click', event => {
+    const note = event.target.closest('.note-pill');
+    if (!note || !state.editing) return;
+    const card = note.closest('.day-card');
+    const dayIndex = [...document.querySelectorAll('#calendar-wrap .day-card')].indexOf(card);
+    if (dayIndex >= 0) editPlanningNote(dayIndex);
+  });
+  $('#edit-btn').addEventListener('click', () => document.body.classList.add('editing-enabled'));
+  $('#save-btn').addEventListener('click', () => document.body.classList.remove('editing-enabled'));
+</script>
+<style>
+  .editing-enabled .note-pill { cursor: pointer; }
+  .editing-enabled .note-pill::after { content: ' · EDIT'; margin-left: 4px; color: #8e5b21; font-weight: 800; }
+</style>
+<script>
+  /* Self-contained report printing: keeps the premium layout after GitHub deployment. */
+  function printEmbeddedReport() {
+    const report = document.createElement('section');
+    report.className = 'pdf-document';
+    report.innerHTML = `<div class="pdf-header"><div><span>LEKORBITES SDN BHD</span><h1>Weekly warehouse forecast</h1><p>${fmt()}</p></div><b>LIVE PLANNING REPORT</b></div><div class="pdf-calendar">${cal(true)}</div>${raw(true)}<footer>Prepared by ${W().forecaster || 'LekorBites Operations'} · System developed by Khair</footer>`;
+    const reportStyles = [...document.querySelectorAll('style')].map(style => style.textContent).join('\n');
+    const fontStylesheet = document.querySelector('link[href*="fonts.googleapis.com"]')?.outerHTML || '';
+    const printWindow = window.open('', 'lekorbites-weekly-report', 'width=1440,height=900');
+    if (!printWindow) { toast('Please allow pop-ups to export this report'); return; }
+    printWindow.document.open();
+    printWindow.document.write(`<!doctype html><html lang="en"><head><meta charset="utf-8"><title>LekorBites Weekly Forecast</title>${fontStylesheet}<style>${reportStyles}\nhtml,body{background:#fff!important;color:#15382c!important;margin:0!important;padding:0!important}.pdf-document{position:static!important;left:auto!important;top:auto!important;z-index:auto!important;width:100%!important;min-height:auto!important;padding:18px!important;box-shadow:none!important}.pdf-document .calendar-wrap{display:grid!important}.pdf-document .day-card{min-height:0!important}.pdf-document .raw-report{page-break-before:always!important}@page{size:A4 landscape;margin:8mm}@media print{body{padding:0!important}.pdf-document{padding:0!important}}</style></head><body>${report.outerHTML}</body></html>`);
+    printWindow.document.close();
+    printWindow.onload = () => setTimeout(() => { printWindow.focus(); printWindow.print(); }, 500);
+  }
+  pdf = printEmbeddedReport;
+  $('#export-btn').onclick = printEmbeddedReport;
+</script>
+<script>
+  /* Keep the forecast editor global to the selected week, not to a source tab. */
+  /* Older cloud records can be partial. Repair their shape before any UI renders. */
+  function repairForecastWeek(plan) {
+    if (!plan || typeof plan !== 'object' || Array.isArray(plan)) plan = {};
+    if (!plan.days || typeof plan.days !== 'object' || Array.isArray(plan.days)) plan.days = {};
+    if (!plan.raw || typeof plan.raw !== 'object' || Array.isArray(plan.raw)) plan.raw = {};
+
+    ['internal', 'partner'].forEach(scope => {
+      if (!plan.raw[scope] || typeof plan.raw[scope] !== 'object' || Array.isArray(plan.raw[scope])) plan.raw[scope] = {};
+      if (!Array.isArray(plan.raw[scope].orders)) plan.raw[scope].orders = [];
+      if (!Array.isArray(plan.raw[scope].buffer)) plan.raw[scope].buffer = [];
+    });
+
+    if (!plan.partnerForecast || typeof plan.partnerForecast !== 'object' || Array.isArray(plan.partnerForecast)) plan.partnerForecast = { days: {} };
+    if (!plan.partnerForecast.days || typeof plan.partnerForecast.days !== 'object' || Array.isArray(plan.partnerForecast.days)) plan.partnerForecast.days = {};
+    Object.keys(plan.partnerForecast.days).forEach(dayKey => {
+      const day = plan.partnerForecast.days[dayKey];
+      if (!day || typeof day !== 'object' || Array.isArray(day)) {
+        plan.partnerForecast.days[dayKey] = { tasks: [], out: [], raw: [] };
+        return;
+      }
+      ['tasks', 'out', 'raw'].forEach(field => {
+        if (!Array.isArray(day[field])) day[field] = [];
+      });
+    });
+
+    Object.keys(plan.days).forEach(dayKey => {
+      const day = plan.days[dayKey];
+      if (!day || typeof day !== 'object' || Array.isArray(day)) {
+        plan.days[dayKey] = { morning: [], afternoon: [], out: [], raw: [] };
+        return;
+      }
+      ['morning', 'afternoon', 'out', 'raw'].forEach(field => {
+        if (!Array.isArray(day[field])) day[field] = [];
+      });
+    });
+
+    return plan;
+  }
+
+  W = function () {
+    if (!state.data || typeof state.data !== 'object' || Array.isArray(state.data)) state.data = {};
+    state.data[state.week] = repairForecastWeek(state.data[state.week]);
+    return state.data[state.week];
+  };
+
+  function syncForecastEditorControls() {
+    const isEditing = !!state.editing;
+    const sourceName = state.audience === 'partner' ? 'Lekor Bites × Yong Mama' : 'Lekor Bites';
+    $('#edit-btn').classList.toggle('hidden', isEditing);
+    $('#editing-actions').classList.toggle('hidden', !isEditing);
+    $('#save-btn').classList.toggle('hidden', !isEditing);
+    $('#edit-state-label').textContent = isEditing ? `Editing ${sourceName} forecast` : 'Forecast is protected';
+    document.body.classList.toggle('editing-enabled', isEditing);
+  }
+
+  const renderWithSourceAgnosticEditor = render;
+  render = function () {
+    renderWithSourceAgnosticEditor();
+    syncForecastEditorControls();
+  };
+
+  $('#edit-btn').onclick = () => {
+    state.editing = true;
+    render();
+    toast('Edit mode enabled');
+    setTimeout(syncForecastEditorControls, 0);
+  };
+
+  $('#save-btn').onclick = () => {
+    save();
+    state.editing = false;
+    render();
+    toast('Live forecast saved');
+    setTimeout(syncForecastEditorControls, 0);
+  };
+
+  /* Rebind the source selector so Internal and Partner always use the current repaired data. */
+  $('#audience-tabs').onclick = event => {
+    const tab = event.target.closest('button[data-audience]');
+    if (!tab) return;
+    state.audience = tab.dataset.audience === 'partner' ? 'partner' : 'internal';
+    $$('#audience-tabs button').forEach(button => button.classList.toggle('selected', button === tab));
+    render();
+  };
+
+  /* One reliable live-sync channel: never let an older cloud response erase a new form entry. */
+  function repairForecastData(data) {
+    const repaired = data && typeof data === 'object' && !Array.isArray(data) ? data : {};
+    Object.keys(repaired).forEach(week => { repaired[week] = repairForecastWeek(repaired[week]); });
+    return repaired;
+  }
+
+  let reliableSyncReady = false;
+  let reliableApplyingRemote = false;
+  let reliableLocalChange = false;
+  let reliableLocalSnapshot = '';
+  let reliableLastSnapshot = '';
+  let reliableSaveTimer = null;
+  const reliableForecastRef = db ? db.ref('lekorbites-forecast') : null;
+
+  function currentForecastSnapshot() {
+    state.data = repairForecastData(state.data);
+    return JSON.stringify(state.data);
+  }
+
+  reliableLastSnapshot = currentForecastSnapshot();
+  reliableLocalSnapshot = reliableLastSnapshot;
+
+  function reliableSave() {
+    const snapshot = currentForecastSnapshot();
+    reliableLocalSnapshot = snapshot;
+    reliableLocalChange = true;
+    localStorage.setItem('lb-forecast-v2', snapshot);
+
+    if (!reliableForecastRef) {
+      setCloudStatus('SAVED ON THIS DEVICE', 'error');
+      return Promise.resolve();
+    }
+
+    setCloudStatus('SAVING LIVE…');
+    return reliableForecastRef.set(JSON.parse(snapshot))
+      .then(() => {
+        reliableLastSnapshot = snapshot;
+        reliableLocalChange = false;
+        setCloudStatus('LIVE SYNCED');
+      })
+      .catch(error => {
+        console.error('Firebase live sync failed:', error);
+        setCloudStatus('CLOUD SYNC BLOCKED', 'error');
+        toast('Changes are saved on this device. Firebase sync is blocked.');
+      });
+  }
+
+  function queueReliableSave() {
+    if (reliableApplyingRemote) return;
+    const snapshot = currentForecastSnapshot();
+    if (snapshot === reliableLastSnapshot && !reliableLocalChange) return;
+
+    /* Draft protection happens synchronously, before a delayed cloud response can arrive. */
+    reliableLocalChange = true;
+    reliableLocalSnapshot = snapshot;
+    localStorage.setItem('lb-forecast-v2', snapshot);
+    if (!reliableSyncReady) return;
+    clearTimeout(reliableSaveTimer);
+    reliableSaveTimer = setTimeout(reliableSave, 0);
+  }
+
+  /* The older listeners are removed so there is no second callback to overwrite a fresh edit. */
+  if (reliableForecastRef) {
+    reliableForecastRef.off();
+    reliableForecastRef.on('value', snapshot => {
+      reliableSyncReady = true;
+      lekorCloudReady = true;
+      const remote = snapshot.val();
+
+      if (!remote) {
+        reliableLastSnapshot = '';
+        reliableLocalChange = true;
+        queueReliableSave();
+        return;
+      }
+
+      const remoteData = repairForecastData(remote);
+      const remoteSnapshot = JSON.stringify(remoteData);
+
+      /* Firebase may answer with an older snapshot while a form submission is waiting to save. */
+      if (reliableLocalChange && remoteSnapshot !== reliableLocalSnapshot) {
+        setCloudStatus('SAVING LIVE…');
+        queueReliableSave();
+        return;
+      }
+
+      reliableApplyingRemote = true;
+      lekorApplyingRemote = true;
+      state.data = remoteData;
+      reliableLastSnapshot = remoteSnapshot;
+      reliableLocalSnapshot = remoteSnapshot;
+      reliableLocalChange = false;
+      localStorage.setItem('lb-forecast-v2', remoteSnapshot);
+      renderWithSourceAgnosticEditor();
+      reliableApplyingRemote = false;
+      lekorApplyingRemote = false;
+      setCloudStatus('LIVE SYNCED');
+    }, error => {
+      reliableSyncReady = true;
+      setCloudStatus('CLOUD SYNC BLOCKED', 'error');
+      console.error('Firebase listener failed:', error);
+    });
+  } else {
+    reliableSyncReady = true;
+    reliableLastSnapshot = currentForecastSnapshot();
+  }
+
+  save = reliableSave;
+  queueLiveSave = queueReliableSave;
+
+  /* Every completed form commits immediately; users never need to change tabs to make it stick. */
+  const forecastFormIds = new Set([
+    'activity-plus', 'partner-task-form', 'partner-edit-form', 'partner-log-form',
+    'edit-task-form', 'edit-log-form', 'planning-note-form', 'readiness-form'
+  ]);
+  document.addEventListener('submit', event => {
+    if (!forecastFormIds.has(event.target.id)) return;
+    setTimeout(() => { queueReliableSave(); }, 0);
+  }, true);
+
+  $('#forecaster').onchange = event => {
+    W().forecaster = event.target.value;
+    queueReliableSave();
+  };
+
+  const renderBeforeReliableSync = render;
+  render = function () {
+    const beforeRenderSnapshot = currentForecastSnapshot();
+    renderBeforeReliableSync();
+    const afterRenderSnapshot = currentForecastSnapshot();
+    if (!reliableApplyingRemote && afterRenderSnapshot !== reliableLastSnapshot) {
+      reliableLocalChange = true;
+      reliableLocalSnapshot = afterRenderSnapshot;
+    }
+    queueReliableSave();
+  };
+
+  /* Direct-save Internal task forms. This specifically protects Morning Session entries. */
+  function saveForecastMutation(message) {
+    const snapshot = currentForecastSnapshot();
+    reliableLocalSnapshot = snapshot;
+    reliableLocalChange = true;
+    localStorage.setItem('lb-forecast-v2', snapshot);
+    render();
+    reliableSave();
+    if (message) toast(message);
+  }
+
+  activity = function (dayIndex) {
+    if (state.audience === 'partner') return partnerActivity(dayIndex);
+    const existing = W().days[dayIndex] || {};
+    modal(`<h2>Add activity</h2><p>Add a Morning Session, Afternoon Session, expected send out, expected receive raw, or planning note.</p><form id="activity-plus"><div class="form-grid"><div class="field"><label>ACTIVITY TYPE</label><select name="type"><option value="morning">Morning session</option><option value="afternoon">Afternoon session</option><option value="out">Expected send out</option><option value="raw">Expected receive raw</option><option value="note">Planning note</option></select></div><div class="field"><label>WORKLOAD LEVEL</label><input name="load" type="number" min="0" max="100" value="${existing.load || 0}" required></div><div class="field full"><label>ACTIVITY / DESCRIPTION</label><input name="text" required placeholder="e.g. Packing for order PO_0987"></div><div class="field"><label><input name="check" type="checkbox" checked> Requires completion tick</label></div></div><div class="modal-actions"><button type="button" class="btn btn-ghost close-modal">Cancel</button><button class="btn btn-primary">Add activity</button></div></form>`);
+    $('#activity-plus').onsubmit = event => {
+      event.preventDefault();
+      const form = new FormData(event.target);
+      const type = form.get('type');
+      const text = String(form.get('text') || '').trim();
+      if (!text) return;
+      const day = W().days[dayIndex] ||= { morning: [], afternoon: [], out: [], raw: [] };
+      ['morning', 'afternoon', 'out', 'raw'].forEach(field => { if (!Array.isArray(day[field])) day[field] = []; });
+      day.load = Math.min(100, Math.max(0, Number(form.get('load')) || 0));
+      if (type === 'note') day.note = text;
+      else if (type === 'out' || type === 'raw') {
+        day[type].push(text);
+        const status = logState(day, type, day[type].length - 1);
+        status.check = Boolean(form.get('check'));
+        status.done = false;
+      } else {
+        day[type].push({ text, check: Boolean(form.get('check')), done: false });
+      }
+      close();
+      saveForecastMutation('Activity saved');
+    };
+  };
+
+  editTask = function (key) {
+    const [dayIndex, type, taskIndex] = key.split('|');
+    const day = W().days[dayIndex];
+    const task = day?.[type]?.[taskIndex];
+    if (!task) return;
+    const currentText = typeof task === 'object' ? task.text : String(task);
+    const requiresTick = typeof task === 'object' ? Boolean(task.check) : false;
+    modal(`<h2>Edit activity</h2><form id="edit-task-form"><div class="field"><label>ACTIVITY / DESCRIPTION</label><input name="text" value="${safeRawText(currentText)}" required></div><div class="field"><label><input name="check" type="checkbox" ${requiresTick ? 'checked' : ''}> Requires completion tick</label></div><div class="modal-actions"><button type="button" id="delete-task" class="btn btn-ghost">Delete activity</button><button class="btn btn-primary">Save changes</button></div></form>`);
+    $('#edit-task-form').onsubmit = event => {
+      event.preventDefault();
+      const form = new FormData(event.target);
+      const nextText = String(form.get('text') || '').trim();
+      if (!nextText) return;
+      day[type][taskIndex] = { text: nextText, check: Boolean(form.get('check')), done: typeof task === 'object' ? Boolean(task.done) : false };
+      close();
+      saveForecastMutation('Activity updated');
+    };
+    $('#delete-task').onclick = () => {
+      day[type].splice(taskIndex, 1);
+      close();
+      saveForecastMutation('Activity deleted');
+    };
+  };
+
+  syncForecastEditorControls();
+</script>
+</body>
+</html>
